@@ -1,6 +1,7 @@
 ---
+name: "Creating Lineups in R"
 title: "Creating Lineups in R"
-author: "Adam Loy"
+output_dir: "."
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
  html_document:
