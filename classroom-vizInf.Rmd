@@ -143,7 +143,6 @@ permute_plot <- writing_sim %>%
 ggsave(permute_plot, filename = "figs/permute_lineup.pdf")
 ggsave(permute_plot, filename = "figs/permute_lineup.png")
 
-
 data("ex0826", package = "Sleuth3")
 mod <- lm(log(Metab) ~ log(Mass), data = ex0826)
 # mod <- lm(Yield ~ Rainfall + I(Rainfall^2), data = ex0915)
