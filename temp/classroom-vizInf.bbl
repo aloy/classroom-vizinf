@@ -1,0 +1,127 @@
+\begin{thebibliography}{xx}
+
+\harvarditem[Buja et~al.]{Buja, Cook, Hofmann, Lawrence, Lee, Swayne
+  \harvardand\ Wickham}{2009}{Buja-2009bd}
+Buja, A., Cook, D., Hofmann, H., Lawrence, M., Lee, E.~K., Swayne, D.~F.
+  \harvardand\ Wickham, H.  \harvardyearleft 2009\harvardyearright ,
+  `Statistical inference for exploratory data analysis and model diagnostics',
+  {\em Philosophical Transactions of the Royal Society A} {\bf
+  367}(1906),~4361--4383.
+
+\harvarditem{Chihara \harvardand\ Hesterberg}{2011}{chihara2011}
+Chihara, L. \harvardand\ Hesterberg, T.  \harvardyearleft 2011\harvardyearright
+  , {\em Mathematical Statistics with Resampling and R}, Wiley.
+
+\harvarditem{Cleveland \harvardand\ McGill}{1984}{cleveland:1984}
+Cleveland, W.~S. \harvardand\ McGill, R.  \harvardyearleft
+  1984\harvardyearright , `Graphical perception: Theory, experimentation, and
+  application to the development of graphical methods', {\em Journal of the
+  American Statistical Association} {\bf 79}(387),~531--554.
+
+\harvarditem{Cobb}{2007}{Cobb-2007uo}
+Cobb, G.~W.  \harvardyearleft 2007\harvardyearright , `The introductory
+  statistics course: a ptolemaic curriculum?', {\em Technology Innovations in
+  Statistics Education} {\bf 1}.
+
+\harvarditem{Cobb}{2011}{Cobb2011-vz}
+Cobb, G.~W.  \harvardyearleft 2011\harvardyearright , `Teaching statistics:
+  Some important tensions', {\em Chil. J. Stat.} {\bf 2}(1),~31--62.
+
+\harvarditem[De~Veaux et~al.]{De~Veaux, Velleman \harvardand\
+  Bock}{2018}{introstats}
+De~Veaux, R., Velleman, P. \harvardand\ Bock, D.  \harvardyearleft
+  2018\harvardyearright , {\em Intro Stats}, 5 edn, Pearson, Boston, MA.
+
+\harvarditem{Gelman \harvardand\ Hill}{2007}{GelmanHill:2007}
+Gelman, A. \harvardand\ Hill, J.  \harvardyearleft 2007\harvardyearright , {\em
+  Data analysis using regression and multilevel/hierarchical models}, Cambridge
+  University Press, New York.
+
+\harvarditem[Hildreth et~al.]{Hildreth, Robison-Cox \harvardand\
+  Schmidt}{2018}{Hildreth2018-sr}
+Hildreth, L.~A., Robison-Cox, J. \harvardand\ Schmidt, J.  \harvardyearleft
+  2018\harvardyearright , `Comparing student success and understanding in
+  introductory statistics under consensus and {Simulation-Based} curricula',
+  {\em Journal of educational and behavioral statistics: a quarterly
+  publication sponsored by the American Educational Research Association and
+  the American Statistical Association} {\bf 17}(1).
+\newline\harvardurl{https://iase-web.org/documents/SERJ/SERJ17(1)_Hildreth.pdf}
+
+\harvarditem[Lock et~al.]{Lock, Frazer~Lock, Lock~Morgan, Lock \harvardand\
+  Lock}{2017}{Lock2017}
+Lock, R., Frazer~Lock, P., Lock~Morgan, K., Lock, E. \harvardand\ Lock, D.
+  \harvardyearleft 2017\harvardyearright , `Statistics: Unlocking the power of
+  data'.
+
+\harvarditem[Loy et~al.]{Loy, Follett \harvardand\ Hofmann}{2016}{Loy2016-fg}
+Loy, A., Follett, L. \harvardand\ Hofmann, H.  \harvardyearleft
+  2016\harvardyearright , `Variations of {Q--Q} plots: The power of our eyes!',
+  {\em Am. Stat.} {\bf 70}(2),~202--214.
+\newline\harvardurl{http://dx.doi.org/10.1080/00031305.2015.1077728}
+
+\harvarditem[Loy et~al.]{Loy, Hofmann \harvardand\ Cook}{2017}{Loy2017-fo}
+Loy, A., Hofmann, H. \harvardand\ Cook, D.  \harvardyearleft
+  2017\harvardyearright , `Model choice and diagnostics for linear
+  {Mixed-Effects} models using statistics on street corners', {\em Journal of
+  Computational and Graphical Statistics} {\bf 26}(3),~478--492.
+\newline\harvardurl{http://dx.doi.org/10.1080/10618600.2017.1330207}
+
+\harvarditem{Maurer \harvardand\ Lock}{2014}{Maurer-2014te}
+Maurer, K. \harvardand\ Lock, D.  \harvardyearleft 2014\harvardyearright ,
+  `Comparison of learning outcomes for randomization-based and traditional
+  inference curricula in a designed educational experiment',  pp.~1--18.
+
+\harvarditem[{Nathan L. Tintle, Dordt College} et~al.]{{Nathan L. Tintle, Dordt
+  College}, {Ally Rogers, Dordt College}, Beth~Chance, {George Cobb, Mt.
+  Holyoke College}, Allan~Rossman, Soma~Roy, {Todd Swanson, Hope College},
+  {Jill VanderStoep, Hope College} \harvardand\ {Authors}}{2014}{Tintle2014-vt}
+{Nathan L. Tintle, Dordt College}, {Ally Rogers, Dordt College}, Beth~Chance,
+  C. P. S. U.-S. L.~O., {George Cobb, Mt. Holyoke College}, Allan~Rossman, C.
+  P. S. U.-S. L.~O., Soma~Roy, C. P. S. U.-S. L.~O., {Todd Swanson, Hope
+  College}, {Jill VanderStoep, Hope College} \harvardand\ {Authors}
+  \harvardyearleft 2014\harvardyearright , `Quantitative evidence for the use
+  of simulation and randomization in the introductory statistics course'.
+
+\harvarditem{Ramsey \harvardand\ Schafer}{2013}{ramsey2013}
+Ramsey, F. \harvardand\ Schafer, D.  \harvardyearleft 2013\harvardyearright ,
+  {\em The statistical sleuth: a course in methods of data analysis}, 3 edn,
+  Cengage Learning, Boston, MA.
+
+\harvarditem{Robbins}{2005}{robbins:2005}
+Robbins, N.  \harvardyearleft 2005\harvardyearright , {\em Creating More
+  Effective Graphs}, Wiley.
+
+\harvarditem{Tintle, Chance, Cobb, Roy, Swanson \harvardand\
+  VanderStoep}{2015}{Tintle2015-yv}
+Tintle, N., Chance, B., Cobb, G., Roy, S., Swanson, T. \harvardand\
+  VanderStoep, J.  \harvardyearleft 2015\harvardyearright , `Combating
+  {Anti-Statistical} thinking using {Simulation-Based} methods throughout the
+  undergraduate curriculum', {\em The American Statistician} {\bf
+  69}(4),~362--370.
+
+\harvarditem{Tintle, Chance, Cobb, Rossman, Roy, Swanson \harvardand\
+  VanderStoep}{2015}{tintle2015}
+Tintle, N., Chance, B.~L., Cobb, G.~W., Rossman, A.~J., Roy, S., Swanson, T.
+  \harvardand\ VanderStoep, J.  \harvardyearleft 2015\harvardyearright , {\em
+  Introduction to statistical investigations}, John Wiley \& Sons, Danvers, MA.
+
+\harvarditem[Tintle et~al.]{Tintle, Topliff \harvardand\
+  VanderStoep}{2012}{Tintle-2012td}
+Tintle, N.~L., Topliff, K. \harvardand\ VanderStoep, J.  \harvardyearleft
+  2012\harvardyearright , `Retention of statistical concepts in a preliminary
+  randomization-based introductory statistics curriculum', {\em Statistics
+  Education Research Journal} {\bf 11},~21--40.
+
+\harvarditem[Tintle et~al.]{Tintle, VanderStoep \harvardand\
+  Holmes}{2011}{Tintle-2011vo}
+Tintle, N., VanderStoep, J. \harvardand\ Holmes, V.~L.  \harvardyearleft
+  2011\harvardyearright , `Development and assessment of a preliminary
+  randomization-based introductory statistics curriculum', {\em Journal of
+  Statistics Education} .
+
+\harvarditem{VanderPlas \harvardand\ Hofmann}{2015}{sineillusion}
+VanderPlas, S. \harvardand\ Hofmann, H.  \harvardyearleft 2015\harvardyearright
+  , `Signs of the sine {Illusion---Why} we need to care', {\em Journal of
+  Computational and Graphical Statistics} {\bf 24}(4),~1170--1190.
+
+\end{thebibliography}
