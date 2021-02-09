@@ -1,0 +1,14 @@
+base
+Sleuth3
+dplyr
+infer
+ggplot2
+nullabor
+broom
+knitr
+Stat2Data
+purrr
+MASS
+Matrix
+lme4
+arm

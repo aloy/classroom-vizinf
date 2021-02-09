@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2017)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: vizinf-paper-arxiv.aux
+The style file: agsm.bst
+Database file #1: classroomVizInf.bib.bib
+You've used 28 entries,
+            2909 wiz_defined-function locations,
+            814 strings with 10355 characters,
+and the built_in function-call counts, 156759 in all, are:
+= -- 25807
+> -- 2244
+< -- 0
++ -- 12706
+- -- 695
+* -- 13891
+:= -- 30948
+add.period$ -- 32
+call.type$ -- 28
+change.case$ -- 383
+chr.to.int$ -- 28
+cite$ -- 28
+duplicate$ -- 430
+empty$ -- 830
+format.name$ -- 785
+if$ -- 28138
+int.to.chr$ -- 5
+int.to.str$ -- 0
+missing$ -- 31
+newline$ -- 102
+num.names$ -- 298
+pop$ -- 135
+preamble$ -- 1
+purify$ -- 420
+quote$ -- 0
+skip$ -- 320
+stack$ -- 0
+substring$ -- 36929
+swap$ -- 54
+text.length$ -- 392
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 94
+warning$ -- 0
+while$ -- 610
+width$ -- 0
+write$ -- 395

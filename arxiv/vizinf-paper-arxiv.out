@@ -1,0 +1,16 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Visual inference}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Example: Comparing groups}{section.2}% 3
+\BOOKMARK [1][-]{section.3}{Using visual inference in introductory statistics}{}% 4
+\BOOKMARK [2][-]{subsection.3.1}{Introducing \(simulation-based\) inference}{section.3}% 5
+\BOOKMARK [3][-]{subsubsection.3.1.1}{Outline of activity}{subsection.3.1}% 6
+\BOOKMARK [2][-]{subsection.3.2}{Interpreting unfamiliar plots}{section.3}% 7
+\BOOKMARK [3][-]{subsubsection.3.2.1}{Residual plots}{subsection.3.2}% 8
+\BOOKMARK [3][-]{subsubsection.3.2.2}{Other plot types}{subsection.3.2}% 9
+\BOOKMARK [1][-]{section.4}{Using visual inference in other courses}{}% 10
+\BOOKMARK [2][-]{subsection.4.1}{Diagnostics for binary logistic regression}{section.4}% 11
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Binned residual plots}{subsection.4.1}% 12
+\BOOKMARK [3][-]{subsubsection.4.1.2}{Empirical logit plots}{subsection.4.1}% 13
+\BOOKMARK [2][-]{subsection.4.2}{Diagnosing other models}{section.4}% 14
+\BOOKMARK [1][-]{section.5}{Implementation}{}% 15
+\BOOKMARK [1][-]{section.6}{Conclusion}{}% 16
