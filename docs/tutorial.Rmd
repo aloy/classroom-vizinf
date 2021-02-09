@@ -1,0 +1,374 @@
+---
+name: "Creating Lineups in R"
+title: "Creating Lineups in R"
+output_dir: "."
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+ html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    theme: readable
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+```
+
+## Overview 
+
+This document provides an overview of creating lineups in R with **ggplot2** and **nullabor**. Hopefully, you can find a recipe that fits your class needs. I don't have my intro students create their own lineups, rather I include lineups on slides and activity prompts. That said, I have also created shiny apps so that students can make their own lineups without the need to teach all of the commands or load specialty packages. 
+
+```{r message=FALSE}
+library(nullabor) # for lineup and null plot functions
+library(ggplot2)  # for visualization 
+library(dplyr)    # for data manipulation
+library(ggthemes) # for colorblind-safe palette
+```
+
+
+## Comparing groups
+
+### Categorical response
+
+To illustrate how to create lineups to compare a proportions/distributions of a categorical response across groups, consider the `fly` data set found in the **ggmosaic** R package. In this example, let's consider how to create a lineup to investigate whether responses to the question "In general, is it rude to bring a baby on a plane?" (`rude_to_bring_baby`) varies across gender (`gender`).
+
+To begin,  let's select only the variables of interest and omit the missing values (`NA`s) to avoid transparent segments representing the missing values. (An alternative strategy is to use `forcats::fct_explicit_na` to make the missing values explicit levels of the variable.)
+
+```{r}
+data("fly", package = "ggmosaic")
+
+fly_data <- fly %>%
+  select(gender, rude_to_bring_baby) %>%
+  na.omit()
+
+glimpse(fly_data)
+```
+
+Notice that `fly_data` consists of two columns and `r nrow(fly_data)` rows.
+
+
+Next, we need to create a data set with one copy of the original data set and 19 null data sets generated under the null hypothesis of independence. To do this, we can use the `nullabor::lineup()` and `nullabor::null_permute()` functions. 
+
+```{r}
+lineup_data <- lineup(method = null_permute("rude_to_bring_baby"), true = fly_data)
+glimpse(lineup_data)
+```
+
+The resulting `lineup_data` now has `r nrow(lineup_data)` ($20 \times `r nrow(fly_data)`$) rows and an additional column, `.sample`, indicating data set membership. The observed data have been assigned a number uniformly at random, and is printed as an encrypted messaged that you can decrpyt by running the `decrypt(...)` message in the console.
+
+Once the data have been generated, the lineup is constructed via faceting:
+
+```{r}
+lineup_data %>%
+  ggplot() +
+  geom_bar(mapping = aes(x = gender, fill = rude_to_bring_baby), position = "fill") +
+  facet_wrap(~ .sample, ncol = 5) +
+  scale_fill_colorblind()
+```
+
+Note: I use `ggthemes::scale_fill_colorblind()` throughout this tutorial, and in my classroom, to avoid common perception issues.
+
+<!-- To recap, the to generate lineups in R using `ggplot2`, there are three key requirements: -->
+
+<!-- 1. a data set containing your null data sets and -->
+<!-- 2. a method to create null data sets -->
+
+
+
+One of the perks of using `ggplot2` as your graphics engine is that once the lineup data are generated, it's easy to switch geometries (i.e plot types). For example, if you wanted to create mosaic plots rather than stacked bar charts, only minor changes to the plotting code chunk are needed:
+
+```{r message = FALSE}
+library(ggmosaic)
+lineup_data %>%
+  ggplot() +
+  geom_mosaic(aes(x = product(rude_to_bring_baby, gender), fill = rude_to_bring_baby)) +
+  facet_wrap(~ .sample, ncol = 5) +
+  scale_fill_colorblind()
+```
+
+
+
+### Quantitative response
+
+To illustrate how to create lineups to compare distributions of a quantitative response across groups, consider the `case0101` data set found in the **Sleuth3** R package. The data are from an experiment designed to explore whether creativity scores were impacted by the type of motivation (intrinsic or extrinsic). To evaluate this, creative writers were randomly assigned to a questionnaire where they ranked reasons they write: one questionnaire listed intrinsic motivations and the other listed extrinsic motivations. After completing the questionnaire, all subjects wrote a Haiku about laughter which was graded for creativity by a panel of poets.
+
+```{r}
+data("case0101", package = "Sleuth3")
+```
+
+Rather than building the lineup piece-by-piece as before, in this example I will pipe the commands together using the pipe operator `%>%`. If you are unfamiliar with the pipe operator, you can think of it as the phrase "and then". The pipe operator is designed to take the object/result to the left and pass it to the function on the right as its first argument.
+
+The code chunk below creates side-by-side boxplots of creativity scores by treatment group:
+
+```{r}
+case0101 %>%
+  lineup(method = null_permute("Treatment"), true = ., n = 16) %>%
+  ggplot(aes(x = Treatment, y = Score, fill = Treatment)) +
+  geom_boxplot(alpha = 0.5) +
+  facet_wrap(~ .sample, ncol = 4) +
+  scale_fill_colorblind()
+```
+
+Again, it's easy to change the plot type. For example, we can easily create a violin plots by swapping out the `geom`:
+
+```{r}
+case0101 %>%
+  lineup(method = null_permute("Treatment"), true = ., n = 16) %>%
+  ggplot(aes(x = Treatment, y = Score, fill = Treatment)) +
+  geom_violin(alpha = 0.5) +
+  facet_wrap(~ .sample, ncol = 4) +
+  scale_fill_colorblind()
+```
+
+Notice that the null plots and position of the data plot changed because we reran the `lineup()` command, generating a new lineup data set. To avoid this behavior you can hard code the position of the data plot by adding the `pos` argument to `lineup()`.
+
+
+
+## Q-Q plots
+
+The lineup protocol is also a natural way to help students interpret Q-Q plots while they are still honing their intuition. In this example, I'll use a simulated sample of 30 observations drawn from a $\chi^2_2$ distribution, and create normal Q-Q plots to compare the sample to the standard normal distribution.
+
+First, let's generate the data:
+
+```{r}
+dframe <- data.frame(x = rchisq(30, df = 2))
+```
+
+Next, we'll use `lineup()` to create a data frame with the data set and 19 null data sets. We still need to specify the `method` and `true` data set, but we use `null_dist()` to simulate data from a specified distribution. The `null_dist()` command requires three arguments:
+
+- `var`: the variable name (as a string)
+
+- `dist`: the distribution name (as a string). See `?nullabor::null_dist` for all accepted distribution names.
+
+- `params`: a list of parameters that will be passed to the distribution function. 
+
+Since we wish to compare the data to a standard normal distribution, we set `dist = "norm"` and `params = list(mean = 0, sd = 1))`.
+
+```{r}
+lineup_data <- lineup(
+  method = null_dist("x", dist = "norm", params = list(mean = 0, sd = 1)), 
+  true = dframe
+)
+```
+
+Now that we have the lineup data set in hand, we can construct the lineup as usual:
+
+```{r}
+lineup_data %>%
+  ggplot(aes(sample = x)) +
+  geom_qq_line() +
+  geom_qq() +
+  facet_wrap(~ .sample)
+```
+
+If you were testing the data against the $\chi^2_2$ distribution, then we can easily regenerate the lineup data setting `ist = "chi-squared"` and `params = list(df = 2))` and create the lineup:
+
+```{r}
+lineup_data2 <- lineup(method = null_dist("x", dist = "chi-squared", params = list(df = 2)), true = dframe)
+
+lineup_data2 %>%
+  ggplot(aes(sample = x)) +
+  geom_qq_line(distribution = qchisq, dparams = list(df = 2)) +
+  geom_qq(distribution = qchisq, dparams = list(df = 2)) +
+  facet_wrap(~ .sample)
+```
+
+
+## Residual plots for linear regression
+
+Lineups also help students to hone their intuition for and ability to interpret residual plots. To construct residual plot lineups using **nullabor**, I recommend first loading the **broom** package to make extracting information from your regression model into a data frame easier. (For simple linear regression without transformations this isn't necessary, but it will help with more complicated models!)
+
+```{r  message = FALSE}
+library(broom)
+```
+
+To begin, let's consider modeling the results of the voltage experiment discussed in Chapter 8 of *The Statistical Sleuth*.
+
+Let's consider the simple linear regression model where we regression the time until breakdown of the insulating fluid on the voltage:
+
+```{r}
+data("case0802", package = "Sleuth3")
+volt_mod <- lm(Time ~ Voltage, data = case0802)
+```
+
+and extract the data used to fit the model using `augment()`, along with some superfluous elements of the fitted model:
+
+```{r}
+aug_volt <- augment(volt_mod)
+head(aug_volt)
+```
+
+Now, we can create the lineup data set using the `lineup()` and `null_lm()` commands. The `null_lm()` command requires two arguments:
+
+- A formula (`f`) for the model, and
+
+- a `method` for generating the null residuals (as a string). Currently, `"rotate"` (residual rotation), `"pboot"` (parametric bootstrap), and `"boot"` (nonparametric bootstrap) are available. For intro classes using a simulation-based curriculum, I recommend using `method = "boot"` for consistency with the curriculum.
+
+```{r}
+lineup_resids <- lineup(null_lm(Time ~ Voltage, method = "boot"), true = aug_volt)
+```
+
+Finally, we can create the residual plot lineup:
+
+```{r}
+lineup_resids %>%
+  ggplot(aes(x = .fitted, y = .resid)) +
+  geom_hline(yintercept = 0, linetype = 2, color = "blue") +
+  geom_point() +
+  facet_wrap(~ .sample)
+```
+
+The observed residual plot pops out, indicating a clear need for remedial measures.
+
+
+Transformations are a little trickier because you need to name the variables in your model formula identically to the output from `augment()`. To see how this works, let's consider a simple linear regression model relating the average metabolic rate and mass for 95 mammals. The data can be found in the **Sleuth3** R package:
+
+```{r}
+data("ex0826", package = "Sleuth3")
+```
+
+As before we fit our model and extract the key components into a data frame. 
+
+```{r}
+metab_mod <- lm(log(Metab) ~ log(Mass), data = ex0826)
+aug_metab <- augment(metab_mod) %>%
+  rename(log.Metab. = `log(Metab)`, log.Mass. = `log(Mass)`) %>%
+  mutate(.resid = resid(metab_mod))
+head(aug_metab)
+```
+
+Note: In former version of **broom**, the column names substituted a period for parentheses in the transformed variable columns. An update to broom changed this, but we need it for to make the code easier below, so we manually rename the columns and extract residuals. Hopefully, this will be updated in `broom` soon.
+
+To properly create the lineup data set for a transformed model, be sure to match the column names in the augmented data set. Here, we pass the formula `log.Metab. ~ log.Mass.` for `null_lm()`:
+
+```{r}
+lineup_metab <- lineup(null_lm(log.Metab. ~ log.Mass., method = "boot"), true = aug_metab)
+```
+
+Finally, lineup creation proceeds as expected:
+
+```{r}
+lineup_metab %>%
+  ggplot(aes(x = .fitted, y = .resid)) +
+  geom_hline(yintercept = 0, linetype = 2, color = "blue") +
+  geom_point(shape = 1) +
+  facet_wrap(~ .sample)
+```
+
+
+
+## Logistic regression
+
+As of this writing, the **nullabor** package only has a few `null_*` functions:
+
+- `null_dist()`: generates null data from a specified probability distribution
+- `null_lm()`: generates null data from a linear regression model
+- `null_permute()`: generates null data by permuting a variable
+- `null_ts()`: generates null data by simulating from a time series model
+
+However, there may be situations in your classes where lineups would be useful to explore new plots (of familiar plots in new situations). A prime example is diagnosing generalized linear models (GLMs). In this section I will give an example of manually constructing the null data frame so that the lineup plot can be constructed using the same plotting recipe as shown above.
+
+In this example, we'll consider the `wells` data set discussed by Gelman and Hill. The code chunk below loads the data set, fits a simple logistic regression model, and extracts the deviance residuals.
+
+```{r  message = FALSE}
+library(arm)
+wells <- read.table("../data/wells.dat")
+wells$dist100 <- wells$dist/100
+
+well_glm <- glm(switch ~ arsenic, family = binomial, data = wells)
+well_aug <- augment(well_glm, type.residuals = "deviance")
+```
+
+The `well_aug` object now contains the `true` data set we will pass to `lineup()`, so we must next turn our efforts to simulating null data sets. To generate null data sets, we need to
+
+1. simulate a response,
+2. refit the model to the simulated response,
+3. extract the residuals, and
+4. repeat 1-3 $n$ times.
+
+To begin, we can use `replicate()` and `simulate()` to simulate $n=19$ sets of null responses. Here, the null data sets will correspond to a correctly specified model. Note that the result of replicate is a list of length 19.
+
+```{r}
+well_sim_y <- replicate(19, expr = simulate(well_glm), simplify = FALSE)
+```
+
+Next, we refit the proposed logistic regression model for each new response and extract the residuals:
+
+```{r}
+well_nulls <- lapply(well_sim_y, FUN = function(x) {
+  augment(glm(x[[1]] ~ arsenic, data = wells, family = binomial))
+})
+```
+
+Finally, we bind the rows together, and add a `.sample` column:
+
+```{r}
+well_nulls <- bind_rows(well_nulls, .id = ".n")
+str(well_nulls)
+```
+
+and convert the `.n` columns of sample IDs to numeric
+
+```{r}
+well_nulls$.n <- as.numeric(well_nulls$.n)
+```
+
+
+Now the we have our `true` data set and our `samples` data set, we can use the same plotting recipe with one minor alteration:
+
+```{r}
+lineup(true = well_aug, n = 20, samples = well_nulls) %>%
+  ggplot(aes(x = arsenic, y = .resid)) +
+  geom_hline(yintercept = 0, linetype = 2, color = "blue") +
+  geom_point(shape = 1) +
+  facet_wrap(~ .sample)
+```
+
+The resulting lineup can be a great conversation starter about how difficult it is to interpret residual plots for binary logistic regression. You can also use it as a springboard into binned residual plots, which I construct below.
+
+With the `true` and `samples` data sets in hand (or a new set of simulations) we can use the `arm::binned.resids()` function to create binned residuals plots, which Gelman and Hill suggest are more useful in model diagnosis. To create binned residual plots, we must calculate the binned residuals by group (i.e. `.sample`):
+
+```{r}
+library(purrr)
+well_lineup_df <- lineup(true = well_aug, n = 20, samples = well_nulls)
+str(well_lineup_df)
+
+well_binned <- 
+  well_lineup_df %>%
+  group_by(.sample) %>%
+  group_map(~ data.frame(binned.resids(.x$arsenic, .x$.resid)$binned)) %>%
+  bind_rows(.id = ".sample") %>%
+  mutate(.sample = as.numeric(.sample))
+str(well_binned)
+```
+
+Notice that the `arm::binned.resids()` function renames the variables in the data set. When you are constructing your plots be sure to use the variables `xbar` and `ybar` rather than the previous variable names.
+
+With the `well_binned` data set in hand, we can construct the lineup directly using only plotting functions:
+
+```{r}
+well_binned %>%
+  ggplot(aes(x = xbar, y = ybar)) +
+  geom_hline(yintercept = 0, linetype = 2, color = "blue") +
+  geom_point(shape = 1) +
+  facet_wrap(~ .sample)
+```
+
+
+## Tips
+
+- When you render final versions of your lineups, it's best to resize the plotting canvas so that each panel appears to be square.
+
+- If you are not comfortable using ***ggplot2**, then I recommend checking out the **ggformula** package. This uses the formula interface from the **mosaic** package to create plots using the **ggplot2** architecture.
+
+- I don't make my students write the code to create lineups from scratch, but I could see providing them with an R Markdown file with the code they can simply run on an RStudio server during an in-class activity.
+
+- If you want to avoid coding, then check out my Shiny apps for creating lineups in the familiar situations discussed above.
+
+
+<br>
+
+<br>
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
