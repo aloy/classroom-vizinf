@@ -533,7 +533,7 @@ In this section, we focused on using the lineup protocol to help diagnose logist
 
 ## How to create lineups
 
-All of the lineups presented in this paper were rendered in R [@r]. A tutorial outlining this process using the ggplot2 [@ggplot2] and nullabor [@nullabor] R packages is provided in the supplementary materials. These tools allow you to customize lineups for class use, but we do not recommend having introductory students grapple with this code. For introductory students, we recommend providing handouts or slides with pre-rendered lineups during class activities. Alternatively, we have created a suite of Shiny apps [@shiny] where students can upload data sets and render lineups. The current suite includes apps to generate lineups to explore associations between groups, normal Q-Q plots, and residual plots for simple linear regression models. Links to the Shiny apps can be found at https://aloy.rbind.io/project/classroom-viz-inf/. 
+All of the lineups presented in this paper were rendered in R [@r]. A tutorial outlining this process using the ggplot2 [@ggplot2] and nullabor [@nullabor] R packages is provided in the supplementary materials. These tools allow you to customize lineups for class use, but we do not recommend having introductory students grapple with this code. For introductory students, we recommend providing handouts or slides with pre-rendered lineups during class activities. Alternatively, we have created a suite of Shiny apps [@shiny] where students can upload data sets and render lineups. The current suite includes apps to generate lineups to explore associations between groups, normal Q-Q plots, and residual plots for simple linear regression models. Links to the Shiny apps can be found at https://aloy.github.io/classroom-vizinf/. 
 
 ## Scaffolding class activities
 
@@ -610,11 +610,11 @@ Finally, the lineup protocol equips students with a rigorous tool for visual inv
 
 \section*{Supplementary materials}
 
-- Two example activities can be found at...
+- Full versions of the activities discussed in Section \ref{sec:intro}
 
-- A tutorial on using nullabor and ggplot2 to create lineups for common topics in introductory statistics can be found at https://aloy.github.io/classroom-vizinf/.
+- A tutorial on using nullabor and ggplot2 to create lineups for common topics in introductory statistics can be found at https://aloy.github.io/classroom-vizinf/tutorial.html.
 
-- A suite of Shiny apps that creates lineups for common topics in introductory statistics can be found at https://aloy.rbind.io/project/classroom-viz-inf/
+- A suite of Shiny apps that creates lineups for common topics in introductory statistics can be found at https://aloy.github.io/classroom-vizinf/
 
 \section*{Acknowledgements}
 
