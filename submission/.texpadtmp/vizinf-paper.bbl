@@ -1,0 +1,202 @@
+\begin{thebibliography}{xx}
+
+\harvarditem[Agresti et~al.]{Agresti, Franklin \harvardand\
+  Klingenberg}{2017}{agresti2017}
+Agresti, A., Franklin, C.~A. \harvardand\ Klingenberg, B.  \harvardyearleft
+  2017\harvardyearright , {\em Statistics: The Art and Science of Learning from
+  Data}, 4th edn, Prentice Hall.
+
+\harvarditem[Bray et~al.]{Bray, Ismay, Chasnovski, Baumer \harvardand\
+  Cetinkaya-Rundel}{2019}{infer}
+Bray, A., Ismay, C., Chasnovski, E., Baumer, B. \harvardand\ Cetinkaya-Rundel,
+  M.  \harvardyearleft 2019\harvardyearright , {\em {infer}: Tidy Statistical
+  Inference}.
+\newblock R package version 0.5.1.
+\newline\harvardurl{https://CRAN.R-project.org/package=infer}
+
+\harvarditem[Buja et~al.]{Buja, Cook, Hofmann, Lawrence, Lee, Swayne
+  \harvardand\ Wickham}{2009}{Buja-2009bd}
+Buja, A., Cook, D., Hofmann, H., Lawrence, M., Lee, E.~K., Swayne, D.~F.
+  \harvardand\ Wickham, H.  \harvardyearleft 2009\harvardyearright ,
+  `Statistical inference for exploratory data analysis and model diagnostics',
+  {\em Philosophical Transactions of the Royal Society A} {\bf
+  367}(1906),~4361--4383.
+
+\harvarditem[Cannon et~al.]{Cannon, Cobb, Hartlaub, Legler, Lock, Moore,
+  Rossman \harvardand\ Witmer}{2018}{stat2}
+Cannon, A., Cobb, G.~W., Hartlaub, B.~A., Legler, J.~M., Lock, R.~H., Moore,
+  T.~L., Rossman, A.~J. \harvardand\ Witmer, J.~A.  \harvardyearleft
+  2018\harvardyearright , {\em {STAT2}: Modeling with Regression and {ANOVA}},
+  2nd edn, MacMillan.
+
+\harvarditem[Chang et~al.]{Chang, Cheng, Allaire, Xie \harvardand\
+  McPherson}{2019}{shiny}
+Chang, W., Cheng, J., Allaire, J., Xie, Y. \harvardand\ McPherson, J.
+  \harvardyearleft 2019\harvardyearright , {\em shiny: Web Application
+  Framework for R}.
+\newblock R package version 1.4.0.
+\newline\harvardurl{https://CRAN.R-project.org/package=shiny}
+
+\harvarditem{Chihara \harvardand\ Hesterberg}{2011}{chihara2011}
+Chihara, L. \harvardand\ Hesterberg, T.  \harvardyearleft 2011\harvardyearright
+  , {\em Mathematical Statistics with Resampling and R}, Wiley.
+
+\harvarditem{Cobb}{2007}{Cobb-2007uo}
+Cobb, G.~W.  \harvardyearleft 2007\harvardyearright , `The introductory
+  statistics course: a ptolemaic curriculum?', {\em Technology Innovations in
+  Statistics Education} {\bf 1}.
+
+\harvarditem{Cobb}{2011}{Cobb2011-vz}
+Cobb, G.~W.  \harvardyearleft 2011\harvardyearright , `Teaching statistics:
+  Some important tensions', {\em Chil. J. Stat.} {\bf 2}(1),~31--62.
+
+\harvarditem[De~Veaux et~al.]{De~Veaux, Velleman \harvardand\
+  Bock}{2018}{introstats}
+De~Veaux, R., Velleman, P. \harvardand\ Bock, D.  \harvardyearleft
+  2018\harvardyearright , {\em Intro Stats}, 5 edn, Pearson, Boston, MA.
+
+\harvarditem{{GAISE College Report ASA Revision Committee}}{2016}{gaise2016}
+{GAISE College Report ASA Revision Committee}  \harvardyearleft
+  2016\harvardyearright , `Guidelines for assessment and instruction in
+  statistics education college report 2016'.
+\newline\harvardurl{http://www.amstat.org/education/gaise}
+
+\harvarditem{Garfield}{1993}{Garfield1993-oy}
+Garfield, J.  \harvardyearleft 1993\harvardyearright , `Teaching statistics
+  using {Small-Group} cooperative learning', {\em Journal of statistics
+  education: an international journal on the teaching and learning of
+  statistics} {\bf 1}(1),~null--null.
+\newline\harvardurl{https://doi.org/10.1080/10691898.1993.11910455}
+
+\harvarditem{Gelman \harvardand\ Hill}{2007}{GelmanHill:2007}
+Gelman, A. \harvardand\ Hill, J.  \harvardyearleft 2007\harvardyearright , {\em
+  Data analysis using regression and multilevel/hierarchical models}, Cambridge
+  University Press, New York.
+
+\harvarditem[Hildreth et~al.]{Hildreth, Robison-Cox \harvardand\
+  Schmidt}{2018}{Hildreth2018}
+Hildreth, L.~A., Robison-Cox, J. \harvardand\ Schmidt, J.  \harvardyearleft
+  2018\harvardyearright , `Comparing student success and understanding in
+  introductory statistics under consensus and {Simulation-Based} curricula',
+  {\em Statistics Education Research Journal} {\bf 17}(1),~103--120.
+
+\harvarditem{Kaplan \harvardand\ Pruim}{2019}{ggformula}
+Kaplan, D. \harvardand\ Pruim, R.  \harvardyearleft 2019\harvardyearright ,
+  {\em ggformula: Formula Interface to the Grammar of Graphics}.
+\newblock R package version 0.9.1.
+\newline\harvardurl{https://CRAN.R-project.org/package=ggformula}
+
+\harvarditem[Lock et~al.]{Lock, Frazer~Lock, Lock~Morgan, Lock \harvardand\
+  Lock}{2017}{Lock2017}
+Lock, R., Frazer~Lock, P., Lock~Morgan, K., Lock, E. \harvardand\ Lock, D.
+  \harvardyearleft 2017\harvardyearright , {\em Statistics: Unlocking the Power
+  of Data}, 2nd edn, John Wiley \& Sons, Hoboken.
+
+\harvarditem[Loy et~al.]{Loy, Hofmann \harvardand\ Cook}{2017}{Loy2017-fo}
+Loy, A., Hofmann, H. \harvardand\ Cook, D.  \harvardyearleft
+  2017\harvardyearright , `Model choice and diagnostics for linear
+  {Mixed-Effects} models using statistics on street corners', {\em Journal of
+  Computational and Graphical Statistics} {\bf 26}(3),~478--492.
+\newline\harvardurl{http://dx.doi.org/10.1080/10618600.2017.1330207}
+
+\harvarditem{Maurer \harvardand\ Lock}{2014}{Maurer-2014te}
+Maurer, K. \harvardand\ Lock, D.  \harvardyearleft 2014\harvardyearright ,
+  `Comparison of learning outcomes for randomization-based and traditional
+  inference curricula in a designed educational experiment',  pp.~1--18.
+
+\harvarditem[Pruim et~al.]{Pruim, Kaplan \harvardand\
+  Horton}{2017}{Pruim2017-uc}
+Pruim, R., Kaplan, D.~T. \harvardand\ Horton, N.~J.  \harvardyearleft
+  2017\harvardyearright , `The mosaic package: Helping students to 'think with
+  data' using {R}', {\em R Journal} {\bf 9}(1),~77--102.
+\newline\harvardurl{https://journal.r-project.org/archive/2017/RJ-2017-024/RJ-2017-024.pdf}
+
+\harvarditem{{R Core Team}}{2019}{r}
+{R Core Team}  \harvardyearleft 2019\harvardyearright , {\em R: A Language and
+  Environment for Statistical Computing}, R Foundation for Statistical
+  Computing, Vienna, Austria.
+\newline\harvardurl{https://www.R-project.org/}
+
+\harvarditem{Ramsey \harvardand\ Schafer}{2013}{ramsey2013}
+Ramsey, F. \harvardand\ Schafer, D.  \harvardyearleft 2013\harvardyearright ,
+  {\em The Statistical Sleuth: A course in Methods of Data Analysis}, 3 edn,
+  Cengage Learning, Boston, MA.
+
+\harvarditem[Roseth et~al.]{Roseth, Garfield \harvardand\
+  Ben-Zvi}{2008}{Roseth2008-xx}
+Roseth, C.~J., Garfield, J.~B. \harvardand\ Ben-Zvi, D.  \harvardyearleft
+  2008\harvardyearright , `Collaboration in learning and teaching statistics',
+  {\em Journal of statistics education: an international journal on the
+  teaching and learning of statistics} {\bf 16}(1).
+\newline\harvardurl{https://doi.org/10.1080/10691898.2008.11889557}
+
+\harvarditem{Tintle, Chance, Cobb, Rossman, Roy, Swanson \harvardand\
+  VanderStoep}{2015}{tintle2015}
+Tintle, N., Chance, B., Cobb, G., Rossman, A., Roy, S., Swanson, T.
+  \harvardand\ VanderStoep, J.  \harvardyearleft 2015\harvardyearright , {\em
+  Introduction to statistical investigations}, Wiley, Danvers, MA.
+
+\harvarditem{Tintle, Chance, Cobb, Roy, Swanson \harvardand\
+  VanderStoep}{2015}{Tintle2015-yv}
+Tintle, N., Chance, B., Cobb, G., Roy, S., Swanson, T. \harvardand\
+  VanderStoep, J.  \harvardyearleft 2015\harvardyearright , `Combating
+  {Anti-Statistical} thinking using {Simulation-Based} methods throughout the
+  undergraduate curriculum', {\em The American Statistician} {\bf
+  69}(4),~362--370.
+
+\harvarditem[Tintle et~al.]{Tintle, Topliff \harvardand\
+  VanderStoep}{2012}{Tintle-2012td}
+Tintle, N.~L., Topliff, K. \harvardand\ VanderStoep, J.  \harvardyearleft
+  2012\harvardyearright , `Retention of statistical concepts in a preliminary
+  randomization-based introductory statistics curriculum', {\em Statistics
+  Education Research Journal} {\bf 11},~21--40.
+
+\harvarditem[Tintle et~al.]{Tintle, Rogers, Chance, Cobb, Rossman, Roy, Swanson
+  \harvardand\ VanderStoep}{2014}{Tintle2014-vt}
+Tintle, N., Rogers, A., Chance, B., Cobb, G., Rossman, A., Roy, S., Swanson, T.
+  \harvardand\ VanderStoep, J.  \harvardyearleft 2014\harvardyearright ,
+  Quantitative evidence for the use of simulation and randomization in the
+  introductory statistics course, {\em in} K.~Makar, B.~de~Sousa \harvardand\
+  R.~Gould, eds, `Sustainability in statistics education. Proceedings of the
+  Ninth International Conference on Teaching Statistics ({ICOTS9}, July, 2014),
+  Flagstaff, Arizona, {USA}.'.
+
+\harvarditem[Tintle et~al.]{Tintle, VanderStoep \harvardand\
+  Holmes}{2011}{Tintle-2011vo}
+Tintle, N., VanderStoep, J. \harvardand\ Holmes, V.~L.  \harvardyearleft
+  2011\harvardyearright , `Development and assessment of a preliminary
+  randomization-based introductory statistics curriculum', {\em Journal of
+  Statistics Education} {\bf 19}.
+
+\harvarditem{Wasserstein \harvardand\ Lazar}{2016}{Wasserstein2016-al}
+Wasserstein, R.~L. \harvardand\ Lazar, N.~A.  \harvardyearleft
+  2016\harvardyearright , `The {ASA} statement on p-values: Context, process,
+  and purpose', {\em The American Statistician} {\bf 70}(2),~129--133.
+\newline\harvardurl{https://doi.org/10.1080/00031305.2016.1154108}
+
+\harvarditem{Wickham}{2016}{ggplot2}
+Wickham, H.  \harvardyearleft 2016\harvardyearright , {\em ggplot2: Elegant
+  Graphics for Data Analysis}, Springer-Verlag New York.
+\newline\harvardurl{https://ggplot2.tidyverse.org}
+
+\harvarditem[Wickham et~al.]{Wickham, Chowdhury \harvardand\
+  Cook}{2014}{nullabor}
+Wickham, H., Chowdhury, N.~R. \harvardand\ Cook, D.  \harvardyearleft
+  2014\harvardyearright , {\em {nullabor}: Tools for Graphical Inference}.
+\newblock {R} package version 0.3.1.
+\newline\harvardurl{http://CRAN.R-project.org/package=nullabor}
+
+\harvarditem[Wild et~al.]{Wild, Pfannkuch, Regan \harvardand\
+  Parsonage}{2017}{wild2017}
+Wild, C.~J., Pfannkuch, M., Regan, M. \harvardand\ Parsonage, R.
+  \harvardyearleft 2017\harvardyearright , `Accessible conceptions of
+  statistical inference: Pulling ourselves up by the bootstraps', {\em
+  International Statistical Review} {\bf 85}(1),~84--107.
+\newline\harvardurl{https://onlinelibrary.wiley.com/doi/full/10.1111/insr.12117}
+
+\harvarditem{Witmer}{2019}{Witmer2019-qg}
+Witmer, J.  \harvardyearleft 2019\harvardyearright , `Editorial', {\em Journal
+  of statistics education} {\bf 27}(3),~136--137.
+\newline\harvardurl{https://doi.org/10.1080/10691898.2019.1702415}
+
+\end{thebibliography}

@@ -1,0 +1,42 @@
+---
+title: 'R Code for Building Intuition for Two-Sample Inference'
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Below is the code used to generate the lineup of boxplots for the creative writing example used in the sample activity:
+
+```{r load packages, message=FALSE}
+library(nullabor)
+library(ggformula)
+library(ggthemes)
+library(dplyr)
+```
+
+
+```{r generate histogram lineup, warning=FALSE, fig.width=6.875, fig.height=5.75}
+data("case0101", package = "Sleuth3")
+set.seed(1234)
+
+lineup_data <- case0101 %>%
+  lineup(method = null_permute("Treatment"), true = ., n = 16)
+
+lineup_means <- lineup_data %>%
+  group_by(.sample, Treatment) %>%
+  summarize(mean = mean(Score))
+
+writing_lineup <- lineup_data %>%
+  gf_boxplot(Score ~ Treatment, fill = ~ Treatment, alpha = 0.4) %>%
+  gf_point(data = lineup_means, mean ~ Treatment) %>%
+  gf_facet_wrap(~ .sample, ncol = 4) %>%
+  gf_refine(scale_fill_colorblind())
+
+ggsave(plot = writing_lineup, filename ="writing_lineup.pdf", width = 6.875, height = 5.75)
+```
+
+
+

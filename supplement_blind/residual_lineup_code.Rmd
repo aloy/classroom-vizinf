@@ -1,0 +1,54 @@
+---
+title: "R Code for Learning to Read Residual Plots Activity"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Loading necessary packages:
+
+```{r load packages, message=FALSE}
+library(broom)
+library(nullabor)
+library(ggformula)
+library(dplyr)
+```
+
+
+Loading the data set from `Stat2Data`:
+
+```{r load data}
+data("RailsTrails", package = "Stat2Data")
+```
+
+Fitting the SLR model:
+
+```{r fit slr model}
+rt_lm <- lm(Price2014 ~ Distance, data = RailsTrails)
+summary(rt_lm)
+```
+
+Creating a lineup of residual plots:
+
+```{r generate residual plot lineup, warning=FALSE, fig.width=6.875, fig.height=5.75}
+set.seed(999)
+aug_rt <- augment(rt_lm)
+lineup_resids <- lineup(null_lm(Price2014 ~ Distance, method = "pboot"), true = aug_rt)
+lineup_resids %>%
+  gf_abline(slope = 0, color = "blue", linetype = 2) %>%
+  gf_point(.resid ~ .fitted, ylab = "Residuals", xlab = "Fitted values", shape = 1) %>%
+  gf_facet_wrap(~ .sample)
+```
+
+Creating a lineup of residual histograms:
+    
+```{r generate histogram lineup, message=FALSE, warning=FALSE, fig.width=6.875, fig.height=5.75}
+lineup_resids %>%
+  mutate(.sample = rep(sample(1:20), each = nrow(aug_rt))) %>%
+  gf_histogram(~ .resid, color = "gray50", bins = 25, xlab = "Residuals") %>%
+  gf_facet_wrap(~ .sample)
+```
+
