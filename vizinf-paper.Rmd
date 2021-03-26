@@ -17,7 +17,7 @@ keywords:
 - Introductory statistics
 - Model diagnostics
 
-abstract: In the classroom, we traditionally visualize inferential concepts using static graphics or interactive apps. For example, there is a long history of using apps to visualize sampling distributions.  The lineup protocol for visual inference is a recent development in statistical graphics that has created an opportunity to  hone student understanding. Lineups are created by embedding plots of observed data into a field of null (noise) plots. This arrangement facilitates comparison and helps build student intuition about the difference between signal and noise. Lineups can be used to visualize randomization/permutation tests, diagnose models, and even conduct valid inference when distributional assumptions break down. This paper provides an overview of how  the lineup protocol for visual inference can be used to build understanding of key statistical topics throughout the statistics curricula.
+abstract: In the classroom, we traditionally visualize inferential concepts using static graphics or interactive apps. For example, there is a long history of using apps to visualize sampling distributions.  The lineup protocol for visual inference is a recent development in statistical graphics that has created an opportunity to  hone student understanding. Lineups are created by embedding plots of observed data into a field of null (noise) plots. This arrangement facilitates comparison and helps build student intuition about the difference between signal and noise. Lineups can be used to visualize randomization/permutation tests, diagnose models, and even conduct valid inference when distributional assumptions break down. This paper provides an overview of how  the lineup protocol for visual inference can be used to build understanding of key statistical topics throughout the statistics curriculum.
 
 bibliography: classroomVizInf.bib
 csl: asa.csl
@@ -144,6 +144,10 @@ ggsave(qqplot_lineup, filename = "qqplot_lineup.png")
 library(arm)
 wells <- read.table("data/wells.dat")
 wells$dist100 <- wells$dist/100
+# well_glm2 <- glm(switch ~ arsenic + I(arsenic^2), family = binomial, data = wells)
+# sim_response <- simulate(well_glm2)[[1]]
+
+# wells[["switch"]] <- sim_response
 well_glm <- glm(switch ~ arsenic, family = binomial, data = wells)
 well_aug <- augment(well_glm, type.residuals = "deviance")
 
@@ -156,7 +160,8 @@ well_pearson_resid <-
   theme_bw()
 
 well_lineup <- replicate(19, expr = simulate(well_glm), simplify = FALSE)
-well_lineup[[20]] <- data.frame(sim_1 = wells[["switch"]])
+# well_lineup[[20]] <- data.frame(sim_1 = wells[["switch"]])
+well_lineup[[20]] <- data.frame(sim_1 = simulate(well_glm2)[[1]])
 
 well_lineup <- lapply(well_lineup, FUN = function(x) {
   broom::augment(glm(x[[1]] ~ arsenic, data = wells, family = binomial))
@@ -243,7 +248,7 @@ The above developments enabled the statistics education community to address key
 
 While the use of the simulation-based curriculum has helped students focus on the underlying ideas of statistical inference, little has changed about the way we help students *visualize* inference. Specifically, we still  have students grapple with null/reference distributions in hypothesis testing and sampling distributions for estimation while they are trying to hone their intuition. These distributions are very abstract ideas and while the web apps we use to demonstrate their construction can help make sense of a single "dot" on the distribution, students commonly lose the forest for the trees. @wild2017 proposed the use of scaffolded animations to help students hone their intuition about sampling/randomization variation and to discover the utility of the bootstrap and permutation distributions. While the animations discussed by @wild2017 to visualize randomization variation appear to be quite useful in communicating this complex idea to students, a "formal" distribution is not necessary to introduce the core ideas behind hypothesis testing. As an alternative, we propose use of the lineup protocol [@Buja-2009bd] to visually introduce the logic behind hypothesis tests and to help students differentiate signal from noise as they meet new plots. Lineups are created by generating a number of decoy plots and randomly situating the data plot into this grid of plots. Using this lineup of plots, students can be asked to apply "Sesame Street logic" (i.e., "which one of these is not like the others"), which can then be linked to fundamental statistical ideas.
 
-In this article, we discuss how to use the lineup protocol from visual inference to help students differentiate between different forms of signal and noise and to better understand the meaning of statistical significance, or "statistically discernible differences" following the suggestion of @Witmer2019-qg. Section \ref{sec:vizinf} presents an overview of the lineup protocol. Section \ref{sec:intro} presents examples of how the lineup protocol can be used in the first course, and Section \ref{sec:othercourses} presents additional examples of its use throughout the curriculum. In Section \ref{sec:implement} we discuss implementation issues and informal student reactions. We conclude with a brief summary in Section \ref{sec:conclusion}.
+In this article, we discuss how to use the lineup protocol from visual inference to help students differentiate between different forms of signal and noise and to better understand the meaning of statistical significance, or "statistically discernible differences," following the suggestion of @Witmer2019-qg. In Section \ref{sec:vizinf}, we present an overview of the lineup protocol. We provide examples of how the lineup protocol can be used in the first course in Section \ref{sec:intro}, and we provide additional examples of its use throughout the curriculum in Section \ref{sec:othercourses}. In Section \ref{sec:implement}, discuss implementation issues and informal student reactions. We conclude with a brief summary in Section \ref{sec:conclusion}.
 
 
 # Visual inference
@@ -271,7 +276,7 @@ In visual inference, the *lineup protocol* provides a direct analog for each ste
 
 1. **Reference (null) distribution**: *Null plots* are generated consistently with the null hypothesis and the set of all null plots constitutes the *reference* (or *null*) *distribution*. To facilitate comparison of the observed plot to the null plots, the observed plot is randomly situated in the field of null plots, just as a suspect is randomly situated among decoys in a police lineup. This arrangement of plots is called a *lineup*.
 
-    *Technical note:* When introducing the lineup to our students we tell them that the null plots were generated in a manner such that the null hypothesis is true, glossing over additional details/conditions to focus student attention focus on the main point of the hypotheses. For example, using permutation resampling to investigate a difference in means requires not only that the means of the two distributions are equal, but that the two groups have the same distribution, so the spread and shapes of the distributions must also be the same. When you discuss the details behind the permutation test you can return to the lineups to clarify this point, but students don't need that level of detail when initially building their intuition.
+    *Technical note:* When introducing the lineup to our students we tell them that the null plots were generated in a manner such that the null hypothesis is true, glossing over additional details/conditions to focus student attention on the main point of the hypotheses. For example, using permutation resampling to investigate a difference in means requires not only that the means of the two distributions are equal, but that the two groups have the same distribution, so the spread and shapes of the distributions must also be the same. When you discuss the details behind the permutation test you can return to the lineups to clarify this point, but students don't need that level of detail when initially building their intuition.
 
 1. **Assessing evidence**: If the null hypothesis is true, then we expect the observed plot to be indiscernible from the null plots. The more discernible the observed plot is from the lineup, the more evidence this provides against the null hypothesis. If one wishes to calculate a visual p-value, then lineups need to be presented to a number of independent observers for evaluation. While this is possible, it is not a productive discussion in introductory courses that don't explore probability theory.  
 
@@ -290,13 +295,13 @@ As a first example of visual inference via the lineup protocol, consider the cre
 knitr::include_graphics("figs/diff_means_plot.pdf")
 ```
 
-3. To understand whether the observed (data) plot provides evidence of a statistically discernible difference, we must understand the behavior of our test statistic under the null hypothesis. To do this, we generate *null plots* consistent with the null hypothesis and the set of all null plots constitutes the reference distribution. To facilitate comparison of the data plot to the null plots, the data plot is randomly situated in the field of null plots. This arrangement of plots is called a *lineup*. Figure \ref{fig:lineup} shows one possible lineup for the creative writing experiment. The nineteen null plots were generated via permutation resampling, and the data plot was randomly assigned to panel #10. 
+3. To understand whether the observed (data) plot provides evidence of a statistically discernible difference, we must understand the behavior of our test statistic under the null hypothesis. To do this, we generate *null plots* consistent with the null hypothesis and the set of all null plots constitutes the reference distribution. To facilitate comparison of the data plot to the null plots, the data plot is randomly situated in the field of null plots. This arrangement of plots is called a *lineup*. Figure \ref{fig:lineup} shows one possible lineup for the creative writing experiment. The nineteen null plots were generated via permutation resampling, and the data plot was randomly assigned to Panel #10. 
 
-    ```{r echo=FALSE, fig.cap="\\label{fig:lineup} A lineup consisting of 19 null plots generated via permutation resampling and the original data plot for the creative writing study. The data plot was randomly placed in panel #10. Can you discern the difference?"}
+    ```{r echo=FALSE, fig.cap="\\label{fig:lineup} A lineup consisting of 19 null plots generated via permutation resampling and the original data plot for the creative writing study. The data plot was randomly placed in Panel #10. Can you discern the difference?"}
 knitr::include_graphics("figs/permute_lineup.pdf")
 ```
 
-4. If the null hypothesis is true, then we expect the data plot to be indiscernible from the null plots. Thus, if one is able to identify the data plot in panel #10 of Figure \ref{fig:lineup}, then this provides evidence against the null hypothesis. We will not discuss the process of calculating a visual $p$-value, as the pedagogical value of the lineup protocol is in visualizing signal and noise. 
+4. If the null hypothesis is true, then we expect the data plot to be indiscernible from the null plots. Thus, if one is able to identify the data plot in Panel #10 of Figure \ref{fig:lineup}, then this provides evidence against the null hypothesis. We will not discuss the process of calculating a visual $p$-value, as the pedagogical value of the lineup protocol is in visualizing signal and noise. 
 
 5. Depending on your selection, you would either write a conclusion communicating that you found evidence of a discernible difference (or made a lucky guess), or did not find evidence of a discernible difference. Either way, this conclusion should be framed in context.
 
@@ -324,7 +329,7 @@ This activity is designed to be completed in groups of three or four students. W
 
 **Lineup evaluation.** Most students recognize that side-by-side boxplots, faceted histograms, or overlayed density plots are reasonable choices to display the relevant aspects of the distribution of creative writing scores for each group. We then provide a lineup of side-by-side boxplots to evaluate (we do place a dot at the sample mean for each group), such as the lineup shown in Figure \ref{fig:lineup}. At this point, we do not give the details behind the creation of null plots, we simply tell students that one plot is the observed data while the other nineteen agree with the null hypothesis. We ask students to choose which plot is the most different from the others and explain why they chose that plot. Once each student has had time to make this assessment (usually about one or two minutes), we ask the groups to discuss and defend their choices.
 
-**Lineup discussion.** After all of the groups have evaluated the lineup and discussed their reasoning, we regroup for a class discussion. During this discussion, we reveal which panel contains the observed data (panel #10 of Figure \ref{fig:lineup}), and display these data on a slide so that we can point to particular features of the plot as necessary. After revealing the observed data, we have students return to their groups to discuss whether they chose the real data and whether their choices support either of the competing claims. Once the class regroups and thoughts are shared, we make sure that the class realizes that an identification of the observed data provides evidence against the null hypothesis (though we always hope students will be the ones saying this).
+**Lineup discussion.** After all of the groups have evaluated the lineup and discussed their reasoning, we regroup for a class discussion. During this discussion, we reveal which panel contains the observed data (Panel #10 of Figure \ref{fig:lineup}), and display these data on a slide so that we can point to particular features of the plot as necessary. After revealing the observed data, we have students return to their groups to discuss whether they chose the real data and whether their choices support either of the competing claims. Once the class regroups and thoughts are shared, we make sure that the class realizes that an identification of the observed data provides evidence against the null hypothesis (though we always hope students will be the ones saying this).
 
 
 
@@ -352,7 +357,7 @@ knitr::include_graphics("figs/observed_residual.pdf")
 
 **Lineup evaluation.** Once students have considered how to use a residual plot, we have them generate via a Shiny app (or present them with) a lineup of residual plots, such as the plot shown in Figure \ref{fig:lineupresid}. Here, the null plots have been generated using the parametric bootstrap, but the residual or non-parametric bootstraps are other viable choices. We avoid the details of how the null plots were generated, but this depends on the goals for your class. Once the lineup has been generated, we ask students to identify which plot is most different from the others, describe what feature(s) led them to their choice and to choose two other plots (i.e., plots they think are decoys) and describe any patterns they see. We ask students to answer these questions individually before discussing them in their groups. Typically about three to five minutes of "think time"are given prior to group discussion.
 
-```{r residual lineup, echo=FALSE, fig.cap="\\label{fig:lineupresid} A lineup of residual plots. The null plots are generated via a parametric bootstrap from the fitted model. The observed data are shown in panel #9. Can you discern the difference?"}
+```{r residual lineup, echo=FALSE, fig.cap="\\label{fig:lineupresid} A lineup of residual plots. The null plots are generated via a parametric bootstrap from the fitted model. The observed data are shown in Panel #9. Can you discern the difference?"}
 knitr::include_graphics("figs/residual_lineup.pdf")
 ```
 
@@ -360,7 +365,7 @@ knitr::include_graphics("figs/residual_lineup.pdf")
 
 **Teaching tips**
 
-- In Figure \ref{fig:lineupresid}, the observed residual plot in panel #9 is systematically different from the null plots. While this is one example we use in class, we also recommend a parallel example where there is no discrepancy between the data and the model.
+- In Figure \ref{fig:lineupresid}, the observed residual plot in Panel #9 is systematically different from the null plots. While this is one example we use in class, we also recommend a parallel example where there is no discrepancy between the data and the model.
 
 - Depending on your course goals, follow-up discussions about the design of residual plots could be injected to the end of this activity. For example, you could provide students with a second version of the lineup where LOESS smoothers have been added to each panel and ask students what features of the residual plot the smoother highlights.
 
@@ -378,9 +383,7 @@ Similar activities can be designed to introduce other statistical graphics. Spec
 # Using visual inference in other courses
 \label{sec:othercourses}
 
-The utility of visual inference is not limited to introductory courses. Whenever a new model is encountered intuition about diagnostic plots must be rebuilt, and the lineup protocol helps students build this intuition. As an example, consider diagnostics for binary logistic regression models, a common topic in a second course.
-
-## Diagnostics for binary logistic regression
+The utility of visual inference is not limited to introductory courses. Whenever a new model is encountered, intuition about diagnostic plots must be rebuilt, and the lineup protocol helps students build this intuition. As an example, consider diagnostics for binary logistic regression models, a common topic in a second course.
 
 Interpreting residual plots from binary logistic regression is difficult, as plots of the residuals against the fitted values or predictors often look similar for adequate and inadequate models. The lineup protocol provides a framework for this discussion. For example, you can simulate data from a model where a quadratic effect is needed, but fit the data to a model with only a linear effect and extract the Pearson residuals. Then, you can simulate the null plots from the model with only the linear effect and extract the Pearson residuals. Figure \ref{fig:logisticissue} shows a lineup created in this way, and the observed residual plot (panel \#8) does not appear to stand out from the field of null plots. Having a discussion surrounding this lineup in class will help pinpoint the difficulty of using "conventional" residual plots for model diagnosis.
 
@@ -440,7 +443,7 @@ ggsave(logistic_residuals_bad, filename = "figs/logistic_residuals_bad.pdf", wid
 ```
 
 
-```{r echo=FALSE, fig.cap="\\label{fig:logisticissue} A lineup for a deficient logistic regression model. The data plot are simulated from a model with a quadratic effect, while the null plots are simulated from a model with only a linear effect. Can you identify the deficient plot?"}
+```{r echo=FALSE, fig.cap="\\label{fig:logisticissue} A lineup for a deficient logistic regression model. The data plot are simulated from a model with a quadratic effect, while the null plots are simulated from a model with only a linear effect. The observed residuals are shown in panl #8 and are indiscernible from the field of null plots, showing the problematic nature of residual plots for logistic regression."}
 # knitr::include_graphics("figs/logistic_residuals_good.pdf")
 knitr::include_graphics("figs/logistic_residuals_bad.pdf")
 ```
@@ -448,21 +451,21 @@ knitr::include_graphics("figs/logistic_residuals_bad.pdf")
 After establishing the pitfalls of "conventional" residual plots for binary logistic regression, you can introduce alternative strategies (i.e., new diagnostic plots) and again use the lineup protocol to calibrate student intuition. Below are two such examples.
 
 
-### Binned residual plots
+## Binned residual plots
 
-@GelmanHill:2007 recommend using *binned residual plots* to explore possible violations of linearity for binary logistic regression. A binned residual plot is created by calculating the average residual value in bins that partition the $x$-axis. Figure \ref{fig:binned} shows a binned residual plot from a simple binary logistic regression model. The average deviance residual is plotted on the $y$-axis for each of 54 bins on the $x$-axis. The number of bins is set to $\lfloor \sqrt{n} \rfloor$, but can be adjusted as with a histogram. @GelmanHill:2007 claim that these plots should behave much like the familiar standardized residual plots from regression. If this claim is true, then Figure \ref{fig:binned} is indicative of nonlinearity. However, rather than simply citing @GelmanHill:2007 to students, a lineup empowers them to investigate the behavior of this new plot type. A lineup for these residuals is given in Figure \ref{fig:binnedlineup}. As suspected, the data plot (panel #8) stands out from the field of null plots, indicating a deficiency with the model. This investigation via a lineup can be framed as a whole class discussion or as a group activity, similar to the activities already outlined.
+@GelmanHill:2007 recommend using *binned residual plots* to explore possible violations of linearity for binary logistic regression. A binned residual plot is created by calculating the average residual value in bins that partition the $x$-axis. Figure \ref{fig:binned} shows a binned residual plot from a simple binary logistic regression model. The average deviance residual is plotted on the $y$-axis for each of 54 bins on the $x$-axis. The number of bins is set to $\lfloor \sqrt{n} \rfloor$, but can be adjusted as with a histogram. @GelmanHill:2007 claim that these plots should behave much like the familiar standardized residual plots from regression. If this claim is true, then Figure \ref{fig:binned} is indicative of nonlinearity. However, rather than simply citing @GelmanHill:2007 to students, a lineup empowers them to investigate the behavior of this new plot type. A lineup for these residuals is given in Figure \ref{fig:binnedlineup}. As suspected, the data plot (Panel #8) stands out from the field of null plots, indicating a deficiency with the model. This investigation via a lineup can be framed as a whole class discussion or as a group activity, similar to the activities already outlined.
 
 ```{r echo=FALSE, fig.cap="\\label{fig:binned} A binned residual plot from a simple binary logistic regression model. The average deviance residual is plotted on the $y$-axis for each of 54 bins on the $x$-axis."}
 knitr::include_graphics("figs/binned_resid_example.pdf")
 ```
 
-```{r echo=FALSE, fig.cap="\\label{fig:binnedlineup} A lineup of binned residual plots from a simple binary logistic regression model. The observed residuals are shown in panel #8 and clearly stand out from the field of null plots, indicating a problem with linearity."}
+```{r echo=FALSE, fig.cap="\\label{fig:binnedlineup} A lineup of binned residual plots from a simple binary logistic regression model. The observed residuals are shown in Panel #8 and clearly stand out from the field of null plots, indicating a problem with linearity."}
 knitr::include_graphics("figs/wells_binned_residuals.pdf")
 ```
 
 
 
-### Empirical logit plots
+## Empirical logit plots
 
 A more-common alternative to the binned residual plot is the *empirical logit plot* [c.f., @stat2; @ramsey2013]. 
 An empirical logit plot can be constructed for each explanatory variable by calculating the adjusted proportion of "successes" within each "group" as
@@ -492,7 +495,7 @@ emplog11 <- emplogitplot1(Acceptance~GPA,data=MedGPA, showplot = FALSE, out = TR
 gridExtra::grid.arrange(emplog5, emplog11, nrow =1)
 ```
 
-```{r echo=FALSE, fig.width=6.875, fig.height=5.75,  fig.cap="\\label{fig:emplogitlineup} A lineup of empirical logit plots from a simple binary logistic regression model. The observed plot is shown in panel #2 and does not stand out from the field of null plots, indicating no problem with linearity.", cache=TRUE, warning=FALSE, message=FALSE}
+```{r echo=FALSE, fig.width=6.875, fig.height=5.75,  fig.cap="\\label{fig:emplogitlineup} A lineup of empirical logit plots from a simple binary logistic regression model. The observed plot is shown in Panel #2 and does not stand out from the field of null plots, indicating no problem with linearity.", cache=TRUE, warning=FALSE, message=FALSE}
 # fitted model
 medgpa_mod <- glm(Acceptance~GPA, data=MedGPA, family = "binomial")
 
@@ -519,13 +522,10 @@ medgpa_lineup_df %>%
 ```
 
 
-To help students interpret whether observed patterns on empirical logit plots are problematic, we again appeal to the lineup protocol to force a comparison between the observed plot and what is expected under the model. Figure \ref{fig:emplogitlineup} displays a lineup of the empirical logit plot created using 5 groups. The observed plot (panel #2) is difficult to pick out from the field of null plots, providing no evidence against linearity. 
+To help students interpret whether observed patterns on empirical logit plots are problematic, we again appeal to the lineup protocol to force a comparison between the observed plot and what is expected under the model. Figure \ref{fig:emplogitlineup} displays a lineup of the empirical logit plot created using 5 groups. The observed plot (Panel #2) is difficult to pick out from the field of null plots, providing no evidence against linearity. 
 
 
-
-## Diagnosing other models
-
-In this section, we focused on using the lineup protocol to help diagnose logistic regression models, but the approach is generally applicable. If you have a plot highlighting some feature(s) of the fitted model, then after simulating data from a "correct" model (i.e., one without model deficiencies), you can create a lineup to interrogate the model. For example, \cite{Loy2017-fo} discuss how visual inference can be used to diagnose multilevel models. 
+We have only focused on using the lineup protocol to help diagnose logistic regression models, but the approach is generally applicable. If you have a plot highlighting some feature(s) of the fitted model, then after simulating data from a "correct" model (i.e., one without model deficiencies), you can create a lineup to interrogate the model. For example, \cite{Loy2017-fo} discuss how visual inference can be used to diagnose multilevel models. 
 
 
 # Implementation and student reception
