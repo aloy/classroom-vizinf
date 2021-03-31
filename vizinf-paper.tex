@@ -118,7 +118,7 @@ address key recommendations made in the GAISE report \citep{gaise2016}.
 The simulation-based curriculum has focused attention on teaching
 statistical thinking and fostering conceptual understanding before
 delving into the mathematical details. An improved computational toolkit
-has enabled students to use technology to explore concepts, such as a
+has enabled students to use technology to explore concepts, such as
 sampling and permutation distributions, and to analyze data.
 
 While the use of the simulation-based curriculum has helped students
@@ -155,8 +155,8 @@ present an overview of the lineup protocol. We provide examples of how
 the lineup protocol can be used in the first course in Section
 \ref{sec:intro}, and we provide additional examples of its use
 throughout the curriculum in Section \ref{sec:othercourses}. In Section
-\ref{sec:implement}, discuss implementation issues and informal student
-reactions. We conclude with a brief summary in Section
+\ref{sec:implement}, we discuss implementation issues and informal
+student reactions. We conclude with a brief summary in Section
 \ref{sec:conclusion}.
 
 \hypertarget{visual-inference}{%
@@ -529,7 +529,7 @@ residual plots for model diagnosis.
 \caption{\label{fig:logisticissue} A lineup for a deficient logistic
 regression model. The data plot are simulated from a model with a
 quadratic effect, while the null plots are simulated from a model with
-only a linear effect. The observed residuals are shown in panl \#8 and
+only a linear effect. The observed residuals are shown in panel \#8 and
 are indiscernible from the field of null plots, showing the problematic
 nature of residual plots for logistic regression.}
 \end{figure}
@@ -551,7 +551,7 @@ A binned residual plot is created by calculating the average residual
 value in bins that partition the \(x\)-axis. Figure \ref{fig:binned}
 shows a binned residual plot from a binary logistic regression model.
 The average deviance residual is plotted on the \(y\)-axis for each of
-54 bins on the \(x\)-axis. The number of bins is set to
+31 bins on the \(x\)-axis. The number of bins is set to
 \(\lfloor \sqrt{n} \rfloor\), but can be adjusted as with a histogram.
 \citet{GelmanHill:2007} claim that these plots should behave much like
 the familiar standardized residual plots from regression. If this claim
@@ -568,25 +568,25 @@ as a group activity, similar to the activities already outlined.
 \begin{figure}
 \centering
 \includegraphics{figs/binned_resid_plot.pdf}
-\caption{\label{fig:binned} A binned residual plot from a simple binary
+\caption{\label{fig:binned} A binned residual plot from a binary
 logistic regression model. The average deviance residual is plotted on
-the \(y\)-axis for each of 54 bins on the \(x\)-axis.}
+the \(y\)-axis for each of 31 bins on the \(x\)-axis.}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics{figs/lineup_binned_resid.pdf}
 \caption{\label{fig:binnedlineup} A lineup of binned residual plots from
-a simple binary logistic regression model. The observed residuals are
-shown in Panel \#3 and clearly stand out from the field of null plots,
-indicating a problem with linearity.}
+a binary logistic regression model. The observed residuals are shown in
+Panel \#3 and clearly stand out from the field of null plots, indicating
+a problem with linearity.}
 \end{figure}
 
 \hypertarget{empirical-logit-plots}{%
 \subsection{Empirical logit plots}\label{empirical-logit-plots}}
 
 A more-common alternative to the binned residual plot is the
-\emph{empirical logit plot} \citep[c.f.,][]{stat2, ramsey2013}. An
+\emph{empirical logit plot} \citep[see][]{stat2, ramsey2013}. An
 empirical logit plot can be constructed for each explanatory variable by
 calculating the adjusted proportion of ``successes'' within each
 ``group'' as \[
@@ -697,8 +697,8 @@ the activity in Section \ref{sec:intro} introducing the logic of testing
 has students discuss the hypotheses, identify the response and
 explanatory variables, and discuss what type of plot they would choose
 to explore the data prior to examining a lineup. These questions help
-make connections to previous topics, but also allow the group to work
-together before discussing lineups. This seems to ``break the ice,'' and
+make connections to previous topics and also allow the group to work
+together before discussing lineups. This seems to ``break the ice'' and
 has led to more engaged discussions.
 
 \emph{Lineup evaluation and discussion.} Once a group has completed the
@@ -892,11 +892,11 @@ over this approach:
 
 Overall, the lineup protocol seems to resonate with a large group of
 students. One recurring struggle is that students tend to see the lineup
-protocol as simply a teaching tool, rather than a rigorous statistical
-tool. We are still determining the best way to address this
-misconception, but see the use of lineups to diagnose complicated models
-or as ways to explore spatial association (as a teaser to an advanced
-topic) as good steps.
+protocol as exclusively a teaching tool, rather than also seeing it as a
+rigorous statistical tool. We are still determining the best way to
+address this misconception, but see the use of lineups to diagnose
+complicated models or as ways to explore spatial association (as a
+teaser to an advanced topic) as good steps.
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
@@ -949,6 +949,8 @@ statistics as a potential area of future study.
 \begin{itemize}
 \item
   Full versions of the activities discussed in Section \ref{sec:intro}
+  along with instructor guides. Further activities will be hosted at
+  \url{https://aloy.github.io/classroom-vizinf/} in the future.
 \item
   A tutorial on using nullabor and ggplot2 to create lineups for common
   topics in introductory statistics can be found at

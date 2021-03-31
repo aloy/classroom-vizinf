@@ -227,11 +227,11 @@ Recent years have seen a great deal of innovation in how we teach statistics as 
 In addition to changes in how we introduce inference, there have also been changes to the computational toolkit we use throughout the statistics curriculum. At the introductory level, numerous toolkits are commonplace depending on the objectives and audience of the course. Web apps are commonly used when students may not have access to their own computers, or simply to lower the technical barriers to entry. Examples include StatKey [@Lock2017], the *Introduction to Statistical Investigations* applets [@tintle2015], and the Shiny apps from @agresti2017. These apps allow students to explore course concepts without getting into the computational weeds. For courses exploring both the concepts and implementation in a realistic data-analytic workflow, R [@r] is a common open-source choice and multiple R packages have been developed to lower the barriers to entry for students, notably mosaic [@Pruim2017-uc], ggformula [@ggformula], and infer [@infer]. 
 
 
-The above developments enabled the statistics education community to address key recommendations made in the GAISE report [@gaise2016]. The simulation-based curriculum has focused attention on teaching statistical thinking and fostering conceptual understanding before delving into the mathematical details. An improved computational toolkit has enabled students to use technology to explore concepts, such as a sampling and permutation distributions, and to analyze data. 
+The above developments enabled the statistics education community to address key recommendations made in the GAISE report [@gaise2016]. The simulation-based curriculum has focused attention on teaching statistical thinking and fostering conceptual understanding before delving into the mathematical details. An improved computational toolkit has enabled students to use technology to explore concepts, such as sampling and permutation distributions, and to analyze data. 
 
 While the use of the simulation-based curriculum has helped students focus on the underlying ideas of statistical inference, little has changed about the way we help students *visualize* inference. Specifically, we still  have students grapple with null/reference distributions in hypothesis testing and sampling distributions for estimation while they are trying to hone their intuition. These distributions are very abstract ideas and while the web apps we use to demonstrate their construction can help make sense of a single "dot" on the distribution, students commonly lose the forest for the trees. @wild2017 proposed the use of scaffolded animations to help students hone their intuition about sampling/randomization variation and to discover the utility of the bootstrap and permutation distributions. While the animations discussed by @wild2017 to visualize randomization variation appear to be quite useful in communicating this complex idea to students, a "formal" distribution is not necessary to introduce the core ideas behind hypothesis testing. As an alternative, we propose use of the lineup protocol [@Buja-2009bd] to visually introduce the logic behind hypothesis tests and to help students differentiate signal from noise as they meet new plots. Lineups are created by generating a number of decoy plots and randomly situating the data plot into this grid of plots. Using this lineup of plots, students can be asked to apply "Sesame Street logic" (i.e., "which one of these is not like the others"), which can then be linked to fundamental statistical ideas.
 
-In this article, we discuss how to use the lineup protocol from visual inference to help students differentiate between different forms of signal and noise and to better understand the meaning of statistical significance, or "statistically discernible differences," following the suggestion of @Witmer2019-qg. In Section \ref{sec:vizinf}, we present an overview of the lineup protocol. We provide examples of how the lineup protocol can be used in the first course in Section \ref{sec:intro}, and we provide additional examples of its use throughout the curriculum in Section \ref{sec:othercourses}. In Section \ref{sec:implement}, discuss implementation issues and informal student reactions. We conclude with a brief summary in Section \ref{sec:conclusion}.
+In this article, we discuss how to use the lineup protocol from visual inference to help students differentiate between different forms of signal and noise and to better understand the meaning of statistical significance, or "statistically discernible differences," following the suggestion of @Witmer2019-qg. In Section \ref{sec:vizinf}, we present an overview of the lineup protocol. We provide examples of how the lineup protocol can be used in the first course in Section \ref{sec:intro}, and we provide additional examples of its use throughout the curriculum in Section \ref{sec:othercourses}. In Section \ref{sec:implement}, we discuss implementation issues and informal student reactions. We conclude with a brief summary in Section \ref{sec:conclusion}.
 
 
 # Visual inference
@@ -426,7 +426,7 @@ ggsave(logistic_residuals_bad, filename = "figs/logistic_residuals_bad.pdf", wid
 ```
 
 
-```{r echo=FALSE, fig.cap="\\label{fig:logisticissue} A lineup for a deficient logistic regression model. The data plot are simulated from a model with a quadratic effect, while the null plots are simulated from a model with only a linear effect. The observed residuals are shown in panl #8 and are indiscernible from the field of null plots, showing the problematic nature of residual plots for logistic regression."}
+```{r echo=FALSE, fig.cap="\\label{fig:logisticissue} A lineup for a deficient logistic regression model. The data plot are simulated from a model with a quadratic effect, while the null plots are simulated from a model with only a linear effect. The observed residuals are shown in panel #8 and are indiscernible from the field of null plots, showing the problematic nature of residual plots for logistic regression."}
 # knitr::include_graphics("figs/logistic_residuals_good.pdf")
 knitr::include_graphics("figs/logistic_residuals_bad.pdf")
 ```
@@ -438,13 +438,13 @@ After establishing the pitfalls of "conventional" residual plots for binary logi
 
 ## Binned residual plots
 
-@GelmanHill:2007 recommend using *binned residual plots* to explore possible violations of linearity for binary logistic regression. A binned residual plot is created by calculating the average residual value in bins that partition the $x$-axis. Figure \ref{fig:binned} shows a binned residual plot from a binary logistic regression model. The average deviance residual is plotted on the $y$-axis for each of 54 bins on the $x$-axis. The number of bins is set to $\lfloor \sqrt{n} \rfloor$, but can be adjusted as with a histogram. @GelmanHill:2007 claim that these plots should behave much like the familiar standardized residual plots from regression. If this claim is true, then Figure \ref{fig:binned} is indicative of nonlinearity. However, rather than simply citing @GelmanHill:2007 to students, a lineup empowers them to investigate the behavior of this new plot type. A lineup for these residuals is given in Figure \ref{fig:binnedlineup}. As suspected, the data plot (Panel #3) stands out from the field of null plots, with a quadratic pattern that is absent from the null plots, indicating a deficiency with the model. This investigation via a lineup can be framed as a whole class discussion or as a group activity, similar to the activities already outlined.
+@GelmanHill:2007 recommend using *binned residual plots* to explore possible violations of linearity for binary logistic regression. A binned residual plot is created by calculating the average residual value in bins that partition the $x$-axis. Figure \ref{fig:binned} shows a binned residual plot from a binary logistic regression model. The average deviance residual is plotted on the $y$-axis for each of 31 bins on the $x$-axis. The number of bins is set to $\lfloor \sqrt{n} \rfloor$, but can be adjusted as with a histogram. @GelmanHill:2007 claim that these plots should behave much like the familiar standardized residual plots from regression. If this claim is true, then Figure \ref{fig:binned} is indicative of nonlinearity. However, rather than simply citing @GelmanHill:2007 to students, a lineup empowers them to investigate the behavior of this new plot type. A lineup for these residuals is given in Figure \ref{fig:binnedlineup}. As suspected, the data plot (Panel #3) stands out from the field of null plots, with a quadratic pattern that is absent from the null plots, indicating a deficiency with the model. This investigation via a lineup can be framed as a whole class discussion or as a group activity, similar to the activities already outlined.
 
-```{r echo=FALSE, fig.cap="\\label{fig:binned} A binned residual plot from a simple binary logistic regression model. The average deviance residual is plotted on the $y$-axis for each of 54 bins on the $x$-axis."}
+```{r echo=FALSE, fig.cap="\\label{fig:binned} A binned residual plot from a binary logistic regression model. The average deviance residual is plotted on the $y$-axis for each of 31 bins on the $x$-axis."}
 knitr::include_graphics("figs/binned_resid_plot.pdf")
 ```
 
-```{r echo=FALSE, fig.cap="\\label{fig:binnedlineup} A lineup of binned residual plots from a simple binary logistic regression model. The observed residuals are shown in Panel #3 and clearly stand out from the field of null plots, indicating a problem with linearity."}
+```{r echo=FALSE, fig.cap="\\label{fig:binnedlineup} A lineup of binned residual plots from a binary logistic regression model. The observed residuals are shown in Panel #3 and clearly stand out from the field of null plots, indicating a problem with linearity."}
 knitr::include_graphics("figs/lineup_binned_resid.pdf")
 ```
 
@@ -452,7 +452,7 @@ knitr::include_graphics("figs/lineup_binned_resid.pdf")
 
 ## Empirical logit plots
 
-A more-common alternative to the binned residual plot is the *empirical logit plot* [c.f., @stat2; @ramsey2013]. 
+A more-common alternative to the binned residual plot is the *empirical logit plot* [see @stat2; @ramsey2013]. 
 An empirical logit plot can be constructed for each explanatory variable by calculating the adjusted proportion of "successes" within each "group" as
 $$
 \widehat{p}_{\rm adj} = \frac{\text{number successes} + 0.5}{\text{number of cases} + 1},
@@ -531,7 +531,7 @@ The lineup activities briefly outlined in Sections \ref{sec:intro} and \ref{sec:
 
 *Introduce the main idea.* Before starting the activity, we introduce students to the main idea via assigned reading or a mini lecture. For example, to use a lineup to introduce mosaic plots, students should first understand what a mosaic plot is. The first time we utilize a lineup in class, we also provide a brief introduction of what a lineup is, as discussed in Section \ref{sec:vizinf}. We  typically use in-class mini lectures to introduce the main idea, but  recording these mini lectures for pre-class viewing is an attractive option. 
 
-*Setup questions.* The lineup activities contain a few questions for students to discuss as a group before seeing a lineup. For example, the activity in Section \ref{sec:intro} introducing the logic of testing has students discuss the hypotheses, identify the response and explanatory variables, and discuss what type of plot they would choose to explore the data prior to examining a lineup. These questions help make connections to previous topics, but also allow the group to work together before discussing lineups. This seems to "break the ice," and has led to more engaged discussions. 
+*Setup questions.* The lineup activities contain a few questions for students to discuss as a group before seeing a lineup. For example, the activity in Section \ref{sec:intro} introducing the logic of testing has students discuss the hypotheses, identify the response and explanatory variables, and discuss what type of plot they would choose to explore the data prior to examining a lineup. These questions help make connections to previous topics and also allow the group to work together before discussing lineups. This seems to "break the ice" and has led to more engaged discussions. 
 
 *Lineup evaluation and discussion.* Once a group has completed the setup, students individually evaluate a lineup. We ask students to choose which plot is the most different from the others and explain why they chose that plot. Once each student has had time to make this assessment (usually about one or two minutes) we ask the students to discuss and defend their choices with their group. More time can be given if you want students to write down their justification before discussing their choice. We generally give between five and ten minutes for this discussion, using cues from the class and our perception of the lineup difficulty to determine whether to extend time past the initial five minutes. To guide the group discussion it can be helpful to ask specific questions, such as
 
@@ -600,13 +600,11 @@ Finally, the lineup protocol equips students with a rigorous tool for visual inv
 
 \section*{Supplementary materials}
 
-- Full versions of the activities discussed in Section \ref{sec:intro}
+- Full versions of the activities discussed in Section \ref{sec:intro} along with instructor guides. Further activities will be hosted at https://aloy.github.io/classroom-vizinf/ in the future.
 
 - A tutorial on using nullabor and ggplot2 to create lineups for common topics in introductory statistics can be found at https://aloy.github.io/classroom-vizinf/tutorial.html.
 
 - A suite of Shiny apps that creates lineups for common topics in introductory statistics can be found at https://aloy.github.io/classroom-vizinf/
-
-- ADD URL TO OVERVIEW PROJECT PAGE...
 
 \section*{Acknowledgements}
 
