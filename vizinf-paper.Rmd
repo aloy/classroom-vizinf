@@ -35,7 +35,8 @@ library(broom)    # extracting residuals in tidy way
 library(knitr)    # for include_graphics
 library(Stat2Data) # for emp logit plots
 library(purrr)
-
+library(arm)      # for binned residuals
+library(tidyr)    # for nest
 set.seed(403)
 ```
 
@@ -140,99 +141,81 @@ ggsave(qqplot_lineup, filename = "qqplot_lineup.pdf", width=6.875, height=5)
 ggsave(qqplot_lineup, filename = "qqplot_lineup.png")
 ```
 
-```{logistic residual plots, include=FALSE, cache=TRUE}
-library(arm)
-wells <- read.table("data/wells.dat")
-wells$dist100 <- wells$dist/100
-# well_glm2 <- glm(switch ~ arsenic + I(arsenic^2), family = binomial, data = wells)
-# sim_response <- simulate(well_glm2)[[1]]
 
-# wells[["switch"]] <- sim_response
-well_glm <- glm(switch ~ arsenic, family = binomial, data = wells)
-well_aug <- augment(well_glm, type.residuals = "deviance")
+```{r revised logistic residual plots, include=FALSE, cache=TRUE}
+N <- 1000
+df <- tibble(
+  x1 = rnorm(N),
+  x2 = rnorm(N),
+  prob_y = exp(-1 + x1 + x2 + 0.7 * x1^2) / 
+    (1 + exp(-1 + x1 + x2 + 0.7 * x1^2)),
+  y = rbinom(N, size = 1, prob = prob_y)
+)
 
-well_pearson_resid <- 
-  well_aug %>%
-  ggplot(aes(x = .fitted, y = .resid)) +
+no_quad <- glm(y ~ x1 + x2, data = df, family = "binomial")
+no_quad_aug <- augment(no_quad, type.residuals = "deviance")
+
+## Raw residual plot - should x be fitted values?
+no_quad_plot <- no_quad_aug %>%
+  ggplot(aes(x = x1, y = .resid)) +
   geom_hline(yintercept = 0, linetype = 2) +
   geom_point(shape = 1) +
   labs(x = "Linear predictor", y = "Deviance residuals") +
   theme_bw()
 
-well_lineup <- replicate(19, expr = simulate(well_glm), simplify = FALSE)
-# well_lineup[[20]] <- data.frame(sim_1 = wells[["switch"]])
-well_lineup[[20]] <- data.frame(sim_1 = simulate(well_glm2)[[1]])
+## Lineup of raw residual plots...
+sim_ys <- simulate(no_quad, nsim = 19)
+sim_aug <- map_dfr(
+  sim_ys, 
+  ~augment(glm(.x ~ x1 + x2, data = df, family = binomial))
+)
+sim_aug$.n <- rep(1:19, each = nrow(df))
 
-well_lineup <- lapply(well_lineup, FUN = function(x) {
-  broom::augment(glm(x[[1]] ~ arsenic, data = wells, family = binomial))
-}) 
-
-well_lineup <- well_lineup %>% 
-  bind_rows() %>%
-  mutate(.sample = rep(1:20, each = nrow(wells)),
-         .id = sample(20, size = 20, replace = FALSE) %>% rep(., each = nrow(wells))) 
-
-wells_residuals <- well_lineup %>%
-  ggplot(aes(x = arsenic, y = .resid)) +
+no_quad_raw_lineup <- lineup(true = no_quad_aug, n = 19, samples = sim_aug) %>%
+    ggplot(aes(x = .fitted, y = .resid)) +
   geom_hline(yintercept = 0, linetype = 2) +
-  geom_point(shape = 1, alpha = 0.5) +
-  facet_wrap(~ .id) +
+  geom_point(shape = 1) +
+  facet_wrap(~.sample, ncol = 5) +
   labs(x = "Linear predictor", y = "Deviance residuals") +
   theme_bw()
 
-br <- data.frame(binned.resids(well_aug$arsenic, well_aug$.resid)$binned)
 
-binned_resid_example <- 
-  br %>%
+## Binned residual plot
+no_quad_bins <- data.frame(
+  binned.resids(
+    no_quad_aug$x1,
+    no_quad_aug$.resid
+  )$binned
+)
+
+binned_resid_plot <- no_quad_bins %>%
   ggplot(aes(xbar, ybar )) +
   geom_hline(yintercept = 0, linetype = 2) +
   geom_point(shape = 1) +
   theme_bw() +
-  labs(x = "Predictor", y = "Average deviance residual")
-ggsave(binned_resid_example, filename = "figs/binned_resid_example.pdf", height = 2.5, width = 2.5)
-ggsave(binned_resid_example, filename = "figs/binned_resid_example.png")
+  labs(x = "Linear predictor", y = "Average deviance residual")
+ggsave(binned_resid_plot, filename = "figs/binned_resid_plot.pdf", 
+       height = 2.5, width = 2.5)
 
-# Working on the binned residual plots
-binned_resid_lineup <- well_lineup %>%
-  group_by(.sample) %>%
-  group_map(~ data.frame(binned.resids(.x$arsenic, .x$.resid)$binned)) %>%
-  bind_rows(.id = ".sample") %>%
-  mutate(
-    .id = sample(20, size = 20, replace = FALSE) %>% rep(., each = 54)
-  )
+## Lineup of binned residual plots
+sim_aug_bins <- sim_aug %>%
+  group_by(.n) %>%
+  nest() %>%
+  mutate(bin = map(
+    data, 
+    ~data.frame(binned.resids(.x$x1, .x$.resid)$binned)
+  )) %>%
+  dplyr::select(-data) %>%
+  unnest(bin)
 
-wells_binned_residuals <- binned_resid_lineup %>%
-  ggplot(aes(x = xbar, y = ybar)) +
+lineup_binned_resid <- lineup(true = no_quad_bins, n = 19, samples = sim_aug_bins, pos = 3) %>%
+  ggplot(aes(xbar, ybar )) +
   geom_hline(yintercept = 0, linetype = 2) +
   geom_point(shape = 1) +
-  facet_wrap(~ .id) +
-  labs(x = "Linear predictor", y = "Binned deviance residuals") +
-  theme_bw()
-
-ggsave(wells_binned_residuals, filename = "figs/wells_binned_residuals.pdf", width=6.875, height=5.75)
-
-
-# emplogit(x = wells$arsenic, y = wells$switch, xlab = "Predictor")
-
-# emp_logit_lineup_data <-
-#   well_lineup %>%
-#   group_by(.sample) %>%
-#   group_map(~emplogit(x = .$arsenic, y = .[[1]])) %>%
-#   bind_rows(.id = ".sample") %>%
-#   mutate(
-#     .id = sample(20, size = 20, replace = FALSE) %>% rep(., each = 61)
-#   )
-# 
-# emp_logit_lineup <-
-#   emp_logit_lineup_data %>%
-#   ggplot(aes(x = x, y = y)) +
-#   geom_point(shape = 1) +
-#   # geom_smooth(method = "lm", se = FALSE) +
-#   facet_wrap(~ .id) +
-#   labs(x = "X", y = "Empirical logit") +
-#   theme_bw()
-# 
-# ggsave(emp_logit_lineup, filename = "figs/emp_logit_lineup.pdf")
+  theme_bw() +
+  facet_wrap(~.sample, ncol = 5) +
+  labs(x = "Linear predictor", y = "Average deviance residual")
+ggsave(lineup_binned_resid, filename = "figs/lineup_binned_resid.pdf", width=6.875, height=6)
 ```
 
 
@@ -448,19 +431,21 @@ ggsave(logistic_residuals_bad, filename = "figs/logistic_residuals_bad.pdf", wid
 knitr::include_graphics("figs/logistic_residuals_bad.pdf")
 ```
 
-After establishing the pitfalls of "conventional" residual plots for binary logistic regression, you can introduce alternative strategies (i.e., new diagnostic plots) and again use the lineup protocol to calibrate student intuition. Below are two such examples.
+After establishing the pitfalls of "conventional" residual plots for binary logistic regression, you can introduce alternative strategies (i.e., new diagnostic plots) and again use the lineup protocol to calibrate student intuition. In this section, we discuss two such examples.
 
+
+\clearpage
 
 ## Binned residual plots
 
-@GelmanHill:2007 recommend using *binned residual plots* to explore possible violations of linearity for binary logistic regression. A binned residual plot is created by calculating the average residual value in bins that partition the $x$-axis. Figure \ref{fig:binned} shows a binned residual plot from a simple binary logistic regression model. The average deviance residual is plotted on the $y$-axis for each of 54 bins on the $x$-axis. The number of bins is set to $\lfloor \sqrt{n} \rfloor$, but can be adjusted as with a histogram. @GelmanHill:2007 claim that these plots should behave much like the familiar standardized residual plots from regression. If this claim is true, then Figure \ref{fig:binned} is indicative of nonlinearity. However, rather than simply citing @GelmanHill:2007 to students, a lineup empowers them to investigate the behavior of this new plot type. A lineup for these residuals is given in Figure \ref{fig:binnedlineup}. As suspected, the data plot (Panel #8) stands out from the field of null plots, indicating a deficiency with the model. This investigation via a lineup can be framed as a whole class discussion or as a group activity, similar to the activities already outlined.
+@GelmanHill:2007 recommend using *binned residual plots* to explore possible violations of linearity for binary logistic regression. A binned residual plot is created by calculating the average residual value in bins that partition the $x$-axis. Figure \ref{fig:binned} shows a binned residual plot from a binary logistic regression model. The average deviance residual is plotted on the $y$-axis for each of 54 bins on the $x$-axis. The number of bins is set to $\lfloor \sqrt{n} \rfloor$, but can be adjusted as with a histogram. @GelmanHill:2007 claim that these plots should behave much like the familiar standardized residual plots from regression. If this claim is true, then Figure \ref{fig:binned} is indicative of nonlinearity. However, rather than simply citing @GelmanHill:2007 to students, a lineup empowers them to investigate the behavior of this new plot type. A lineup for these residuals is given in Figure \ref{fig:binnedlineup}. As suspected, the data plot (Panel #3) stands out from the field of null plots, with a quadratic pattern that is absent from the null plots, indicating a deficiency with the model. This investigation via a lineup can be framed as a whole class discussion or as a group activity, similar to the activities already outlined.
 
 ```{r echo=FALSE, fig.cap="\\label{fig:binned} A binned residual plot from a simple binary logistic regression model. The average deviance residual is plotted on the $y$-axis for each of 54 bins on the $x$-axis."}
-knitr::include_graphics("figs/binned_resid_example.pdf")
+knitr::include_graphics("figs/binned_resid_plot.pdf")
 ```
 
-```{r echo=FALSE, fig.cap="\\label{fig:binnedlineup} A lineup of binned residual plots from a simple binary logistic regression model. The observed residuals are shown in Panel #8 and clearly stand out from the field of null plots, indicating a problem with linearity."}
-knitr::include_graphics("figs/wells_binned_residuals.pdf")
+```{r echo=FALSE, fig.cap="\\label{fig:binnedlineup} A lineup of binned residual plots from a simple binary logistic regression model. The observed residuals are shown in Panel #3 and clearly stand out from the field of null plots, indicating a problem with linearity."}
+knitr::include_graphics("figs/lineup_binned_resid.pdf")
 ```
 
 
@@ -476,7 +461,9 @@ and plotting $\log\left(\widehat{p}_{\rm adj} / (1- \widehat{p}_{\rm adj}) \righ
 
 While an empirical logit plot is quite straightforward to create, it can be hard to interpret for smaller data sets where few groups are formed. For example, @stat2 use empirical logit plots to explore a binary logistic regression model for medical school admission decisions based on an applicant's average grade point average and render empirical logit plots based on both 5 and 11 bins. Figure \ref{fig:emplogitexample} shows recreations of these plots. Experimenting with the number of bins reveals the difficulty students may encounter determining whether linearity is reasonable: the plot can change substantially based on the number of bins chosen. In our experience, students often see some indication of non-linearity in the plot with 5 bins (Figure \ref{fig:emplogitexample} (a)), whereas they think the plot with 11 bins (Figure \ref{fig:emplogitexample} (b)) is reasonably linear.
 
-```{r echo=FALSE, fig.cap="\\label{fig:emplogitexample} Two empirical logit plots rendered for the same data set with $n=55$ observations. Panel (a) is rendered using 5 groups while panel (b) is rendered using 11 groups. The appearance of the plots changes substantially, often leading to confusion in intrepretation.", fig.width = 7.25, fig.height = 3.5, out.width="85%", fig.align='center', cache=TRUE, message=FALSE, warning=FALSE}
+\clearpage
+
+```{r echo=FALSE, fig.cap="\\label{fig:emplogitexample} Two empirical logit plots rendered for the same data set with $n=55$ observations. Panel (a) is rendered using 5 groups while panel (b) is rendered using 11 groups. The appearance of the plots changes substantially, often leading to confusion in intrepretation.", fig.width = 7.25, fig.height = 3.5, out.width="80%", fig.align='center', cache=TRUE, message=FALSE, warning=FALSE}
 library(Stat2Data)
 library(dplyr)
 data("MedGPA")
@@ -494,6 +481,11 @@ emplog11 <- emplogitplot1(Acceptance~GPA,data=MedGPA, showplot = FALSE, out = TR
 
 gridExtra::grid.arrange(emplog5, emplog11, nrow =1)
 ```
+
+
+
+To help students interpret whether observed patterns on empirical logit plots are problematic, we again appeal to the lineup protocol to force a comparison between the observed plot and what is expected under the model. Figure \ref{fig:emplogitlineup} displays a lineup of the empirical logit plot created using 5 groups. The observed plot (Panel #2) is difficult to pick out from the field of null plots, providing no evidence against linearity. 
+
 
 ```{r echo=FALSE, fig.width=6.875, fig.height=5.75,  fig.cap="\\label{fig:emplogitlineup} A lineup of empirical logit plots from a simple binary logistic regression model. The observed plot is shown in Panel #2 and does not stand out from the field of null plots, indicating no problem with linearity.", cache=TRUE, warning=FALSE, message=FALSE}
 # fitted model
@@ -522,12 +514,10 @@ medgpa_lineup_df %>%
 ```
 
 
-To help students interpret whether observed patterns on empirical logit plots are problematic, we again appeal to the lineup protocol to force a comparison between the observed plot and what is expected under the model. Figure \ref{fig:emplogitlineup} displays a lineup of the empirical logit plot created using 5 groups. The observed plot (Panel #2) is difficult to pick out from the field of null plots, providing no evidence against linearity. 
-
-
 We have only focused on using the lineup protocol to help diagnose logistic regression models, but the approach is generally applicable. If you have a plot highlighting some feature(s) of the fitted model, then after simulating data from a "correct" model (i.e., one without model deficiencies), you can create a lineup to interrogate the model. For example, \cite{Loy2017-fo} discuss how visual inference can be used to diagnose multilevel models. 
 
 
+\clearpage
 # Implementation and student reception
 \label{sec:implement}
 
@@ -594,7 +584,7 @@ In the second course, we use lineups to help students review how to interpret re
 - The null plots are generated from models without any violations to the conditions, so students keep *seeing* examples of what we previously called "random scatter," which never fully resonated with the entire class.
 
 
-Overall, the lineup protocol seems to resonate with a large group of students. One recurring struggle is that students tend to see the lineup protocol as simply a teaching tool, rather than a rigorous statistical tool. We are still determining the best way to address this misconception, but see the use of lineups to diagnose complicated models or as ways to explore spatial association (as a teaser to an advanced topic) as good steps.
+Overall, the lineup protocol seems to resonate with a large group of students. One recurring struggle is that students tend to see the lineup protocol as exclusively a teaching tool, rather than also seeing it as a rigorous statistical tool. We are still determining the best way to address this misconception, but see the use of lineups to diagnose complicated models or as ways to explore spatial association (as a teaser to an advanced topic) as good steps.
 
 
 # Conclusion
@@ -615,6 +605,8 @@ Finally, the lineup protocol equips students with a rigorous tool for visual inv
 - A tutorial on using nullabor and ggplot2 to create lineups for common topics in introductory statistics can be found at https://aloy.github.io/classroom-vizinf/tutorial.html.
 
 - A suite of Shiny apps that creates lineups for common topics in introductory statistics can be found at https://aloy.github.io/classroom-vizinf/
+
+- ADD URL TO OVERVIEW PROJECT PAGE...
 
 \section*{Acknowledgements}
 

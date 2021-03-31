@@ -537,7 +537,10 @@ nature of residual plots for logistic regression.}
 After establishing the pitfalls of ``conventional'' residual plots for
 binary logistic regression, you can introduce alternative strategies
 (i.e., new diagnostic plots) and again use the lineup protocol to
-calibrate student intuition. Below are two such examples.
+calibrate student intuition. In this section, we discuss two such
+examples.
+
+\clearpage
 
 \hypertarget{binned-residual-plots}{%
 \subsection{Binned residual plots}\label{binned-residual-plots}}
@@ -546,9 +549,9 @@ calibrate student intuition. Below are two such examples.
 explore possible violations of linearity for binary logistic regression.
 A binned residual plot is created by calculating the average residual
 value in bins that partition the \(x\)-axis. Figure \ref{fig:binned}
-shows a binned residual plot from a simple binary logistic regression
-model. The average deviance residual is plotted on the \(y\)-axis for
-each of 54 bins on the \(x\)-axis. The number of bins is set to
+shows a binned residual plot from a binary logistic regression model.
+The average deviance residual is plotted on the \(y\)-axis for each of
+54 bins on the \(x\)-axis. The number of bins is set to
 \(\lfloor \sqrt{n} \rfloor\), but can be adjusted as with a histogram.
 \citet{GelmanHill:2007} claim that these plots should behave much like
 the familiar standardized residual plots from regression. If this claim
@@ -556,15 +559,15 @@ is true, then Figure \ref{fig:binned} is indicative of nonlinearity.
 However, rather than simply citing \citet{GelmanHill:2007} to students,
 a lineup empowers them to investigate the behavior of this new plot
 type. A lineup for these residuals is given in Figure
-\ref{fig:binnedlineup}. As suspected, the data plot (Panel \#8) stands
-out from the field of null plots, indicating a deficiency with the
-model. This investigation via a lineup can be framed as a whole class
-discussion or as a group activity, similar to the activities already
-outlined.
+\ref{fig:binnedlineup}. As suspected, the data plot (Panel \#3) stands
+out from the field of null plots, with a quadratic pattern that is
+absent from the null plots, indicating a deficiency with the model. This
+investigation via a lineup can be framed as a whole class discussion or
+as a group activity, similar to the activities already outlined.
 
 \begin{figure}
 \centering
-\includegraphics{figs/binned_resid_example.pdf}
+\includegraphics{figs/binned_resid_plot.pdf}
 \caption{\label{fig:binned} A binned residual plot from a simple binary
 logistic regression model. The average deviance residual is plotted on
 the \(y\)-axis for each of 54 bins on the \(x\)-axis.}
@@ -572,10 +575,10 @@ the \(y\)-axis for each of 54 bins on the \(x\)-axis.}
 
 \begin{figure}
 \centering
-\includegraphics{figs/wells_binned_residuals.pdf}
+\includegraphics{figs/lineup_binned_resid.pdf}
 \caption{\label{fig:binnedlineup} A lineup of binned residual plots from
 a simple binary logistic regression model. The observed residuals are
-shown in Panel \#8 and clearly stand out from the field of null plots,
+shown in Panel \#3 and clearly stand out from the field of null plots,
 indicating a problem with linearity.}
 \end{figure}
 
@@ -608,22 +611,15 @@ indication of non-linearity in the plot with 5 bins (Figure
 \ref{fig:emplogitexample} (a)), whereas they think the plot with 11 bins
 (Figure \ref{fig:emplogitexample} (b)) is reasonably linear.
 
+\clearpage
+
 \begin{figure}
 
-{\centering \includegraphics[width=0.85\linewidth]{vizinf-paper_files/figure-latex/unnamed-chunk-7-1} 
+{\centering \includegraphics[width=0.8\linewidth]{vizinf-paper_files/figure-latex/unnamed-chunk-7-1} 
 
 }
 
 \caption{\label{fig:emplogitexample} Two empirical logit plots rendered for the same data set with $n=55$ observations. Panel (a) is rendered using 5 groups while panel (b) is rendered using 11 groups. The appearance of the plots changes substantially, often leading to confusion in intrepretation.}\label{fig:unnamed-chunk-7}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics{vizinf-paper_files/figure-latex/unnamed-chunk-8-1.pdf}
-\caption{\label{fig:emplogitlineup} A lineup of empirical logit plots
-from a simple binary logistic regression model. The observed plot is
-shown in Panel \#2 and does not stand out from the field of null plots,
-indicating no problem with linearity.}
 \end{figure}
 
 To help students interpret whether observed patterns on empirical logit
@@ -634,6 +630,15 @@ empirical logit plot created using 5 groups. The observed plot (Panel
 \#2) is difficult to pick out from the field of null plots, providing no
 evidence against linearity.
 
+\begin{figure}
+\centering
+\includegraphics{vizinf-paper_files/figure-latex/unnamed-chunk-8-1.pdf}
+\caption{\label{fig:emplogitlineup} A lineup of empirical logit plots
+from a simple binary logistic regression model. The observed plot is
+shown in Panel \#2 and does not stand out from the field of null plots,
+indicating no problem with linearity.}
+\end{figure}
+
 We have only focused on using the lineup protocol to help diagnose
 logistic regression models, but the approach is generally applicable. If
 you have a plot highlighting some feature(s) of the fitted model, then
@@ -641,6 +646,8 @@ after simulating data from a ``correct'' model (i.e., one without model
 deficiencies), you can create a lineup to interrogate the model. For
 example, \cite{Loy2017-fo} discuss how visual inference can be used to
 diagnose multilevel models.
+
+\clearpage
 
 \hypertarget{implementation-and-student-reception}{%
 \section{Implementation and student
