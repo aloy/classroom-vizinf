@@ -18,6 +18,26 @@ In the classroom, we traditionally visualize inferential concepts related to inf
 
 In addition to writing about the use of visual inference in the classroom, I've also developed materials to facilitate its use.
 
+Lineups Activity: Building Intuition for Two-Sample Inference
+
+- [Instructor guide](compare_means_lineup_instr.docx)
+
+- [Student handout](compare_means_lineup_student.docx)
+
+- [R Markdown file with the code](compare_means_code.Rmd)
+
+- [CreativeWriting.csv](data/CreativeWriting.csv)
+
+Lineups Activity: Learning to Read Residual Plots
+
+- [Instructor guide](residual_lineup_instr.docx)
+
+- [Student handout](residual_lineup_student.docx)
+
+- [R Markdown file with the code](residual_lineup_code.Rmd)
+
+- [RailsTrails.csv](data/RailsTrails.csv)
+
 [Tutorial using nullabor + ggplot2 to create lineups in R](tutorial.html)
 
 Suite of Shiny apps for lineups in intro stats
