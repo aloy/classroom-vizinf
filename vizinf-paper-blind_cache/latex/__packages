@@ -6,5 +6,10 @@ ggplot2
 nullabor
 broom
 knitr
+MASS
+Matrix
+lme4
+arm
 Stat2Data
 purrr
+tidyr
