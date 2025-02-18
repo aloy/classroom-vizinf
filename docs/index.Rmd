@@ -45,10 +45,10 @@ Suite of Shiny apps for lineups in intro stats
 - [GitHub repository for Shiny apps](https://github.com/aloy/shiny-vizinf)
 
 - Live Shiny apps
-  + [Detecting association: Two categorical variables](http://shinyapps.its.carleton.edu/multi-sample-cat-app)
-  + [Detecting association: Quantitative vs. categorical](http://shinyapps.its.carleton.edu/multi-sample-quant-app)
-  + [Exploring residual plots in SLR](http://shinyapps.its.carleton.edu/lm-resids-app)
-  + [Interpreting Q-Q plots](http://shinyapps.its.carleton.edu/qqplots)
+  + [Detecting association: Two categorical variables](http://shinyapps.carleton.edu/multi-sample-cat-app)
+  + [Detecting association: Quantitative vs. categorical](http://shinyapps.carleton.edu/multi-sample-quant-app)
+  + [Exploring residual plots in SLR](http://shinyapps.carleton.edu/lm-resids-app)
+  + [Interpreting Q-Q plots](http://shinyapps.carleton.edu/qqplots)
 
 
 <br>
